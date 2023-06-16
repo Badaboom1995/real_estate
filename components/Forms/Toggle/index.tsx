@@ -1,9 +1,10 @@
+'use client';
 import React, { useState } from 'react';
 import cn from 'classnames';
 
 type ToggleProps = {
   name: string;
-  label: string;
+  label?: string;
   initialValue?: boolean;
   onChange?: (checked: boolean) => void;
 };
@@ -23,7 +24,7 @@ const Toggle: React.FC<ToggleProps> = ({
 
   return (
     <label className="cursor-pointer">
-      <span className="block text-gray-700 w-100">{label}</span>
+      {label && <span className="block text-gray-700 w-100">{label}</span>}
       <div className="relative">
         <input
           type="checkbox"

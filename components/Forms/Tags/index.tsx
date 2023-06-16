@@ -1,5 +1,5 @@
 import React from 'react';
-import Tag from '@/components/Tags/Tag';
+import Tag from '@/components/Forms/Tags/Tag';
 
 type TagSelectionProps = {
   tags: string[];

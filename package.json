@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "generate": "plop --plopfile ./.plop/plopfile.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.1",
+    "@supabase/supabase-js": "^2.25.0",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
     "@types/react-dom": "18.2.4",
@@ -17,6 +19,7 @@
     "classnames": "^2.3.2",
     "eslint-config-next": "13.4.4",
     "next": "13.4.4",
+    "plop": "^3.1.2",
     "postcss": "8.4.24",
     "react": "18.2.0",
     "react-dom": "18.2.0",

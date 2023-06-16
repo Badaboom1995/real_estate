@@ -1,0 +1,17 @@
+import cn from 'classnames'
+
+interface {{pascalCase name}}Props {
+  containerClassName?: string
+}
+
+export function {{pascalCase name}}(props: {{pascalCase name}}Props) {
+  const { containerClassName } = props
+
+  const containerClasses = cn(styles.container, containerClassName)
+
+	return (
+		<div className={containerClasses}>
+			{{pascalCase name}}
+		</div>
+	)
+}

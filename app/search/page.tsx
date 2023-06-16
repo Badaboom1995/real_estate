@@ -1,15 +1,10 @@
-'use client';
-import { useForm, FormProvider } from 'react-hook-form';
-import Input from '@/components/Input';
-import Select from '@/components/Select';
-import Button from '@/components/Button';
-import { createContext } from 'react';
-import RegisterContext from '@/utils/formContext';
-import CheckboxGroup from '@/components/CheckboxGroup';
-import Tags from '@/components/Tags';
-import Toggle from '@/components/Toggle';
-import { Loader } from '@googlemaps/js-api-loader';
-import Tabs from '@/components/Tabs';
+import { Filters } from '@/components/Filters';
+import { PropertyCard } from '@/components/PropertyCard';
+import { FormProvider, useForm } from 'react-hook-form';
+import { PropertySorting } from '@/components/PropertySorting';
+import supabase from '@/database/supabase';
+import { PropertyType } from '@/types/Property';
+import { database } from '@/utils/database';
 
 interface FormData {
   name: string;
@@ -17,91 +12,49 @@ interface FormData {
   password: string;
   role: string;
 }
+const headerHeight = 118;
+const untilListing = 420;
 
-const Form: React.FC = () => {
-  const methods = useForm<FormData>();
-  const { control } = methods;
-  const { handleSubmit, register } = methods;
+const Form: React.FC = async () => {
+  const properties = await database.fetchEntities({ type: 'House' });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    // handle form submission here
-  };
-
+  const searchPageHeight = `calc(100vh - ${headerHeight}px)`;
+  const propertiesSectionHeight = `calc(100vh - ${untilListing}px)`;
   return (
-    <div>
-      <FormProvider {...methods}>
-        <Tabs
-          className="mb-[48px]"
-          tabs={[
-            {
-              id: '0',
-              label: 'dopes',
-              content: (
-                <div className={'border px-[30px] py-[42px]'}>
-                  <div>dopoes</div>
-                </div>
-              ),
-            },
-            {
-              id: '1',
-              label: 'props',
-              content: (
-                <div className={'border px-[30px] py-[42px]'}>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <Input name="name" label="Name" placeholder="Your name" />
-
-                    <Input
-                      name="email"
-                      label="Email"
-                      placeholder="Your email"
-                    />
-
-                    <Input
-                      name="password"
-                      label="Password"
-                      type="password"
-                      placeholder="Your password"
-                    />
-                    <Select
-                      name="role"
-                      label="Role"
-                      options={[
-                        { value: 'admin', label: 'Admin' },
-                        { value: 'user', label: 'User' },
-                      ]}
-                      multiple={true}
-                    />
-                    <CheckboxGroup
-                      options={[
-                        { value: '1', label: 'qwedsds' },
-                        { value: '2', label: 'qwedsds' },
-                        { value: '3', label: 'qwedsds' },
-                      ]}
-                      label="asd"
-                      name="asd"
-                      onChange={() => {}}
-                    />
-                    <Tags tags={['asd', 'qw', 'qwe']} name="tags" />
-                    <Toggle name={'toggl'} onChange={() => {}} label={'qwe'} />
-                    <br />
-                    <Button variant={'text'}>Submit</Button>
-                  </form>
-                </div>
-              ),
-            },
-          ]}
-        />
-      </FormProvider>
-      <div className="flex justify-between w-full">
-        <div className="flex flex-wrap justify-between gap-y-[24px] mr-[36px] w-[50%]">
-          <div className="w-[300px] border">1</div>
-          <div className="w-[300px] border">2</div>
-          <div className="w-[300px] border">3</div>
-          <div className="w-[300px] border">4</div>
+    <div style={{ height: searchPageHeight }} className={'overflow-hidden'}>
+      <section>
+        <Filters />
+      </section>
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-[24px]">Property title (312)</h2>
+          <PropertySorting />
         </div>
-        <div className="border grow">map</div>
-      </div>
+        <div className="flex justify-between w-full">
+          <div
+            style={{ height: propertiesSectionHeight }}
+            className="flex flex-wrap justify-between gap-y-[24px] pr-[36px] w-1/2 overflow-y-scroll"
+          >
+            {properties?.map((property: PropertyType) => {
+              return (
+                <PropertyCard
+                  key={property.id}
+                  title={property.name}
+                  image={property.pictures[0]}
+                  price={property.price_dollar}
+                  address={`${property.city}, ${property.country}`}
+                  features={`${property.type} • ${property.bedrooms} bds • ${property.bathrooms} ba • ${property.internal_area_ft} Sq Ft`}
+                />
+              );
+            })}
+          </div>
+          <div className={'w-1/2'}>
+            <div className="border grow h-[768px] justify-center items-center bg-indigo-50 text-center">
+              map
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
