@@ -46,4 +46,37 @@ module.exports = function (plop) {
       },
     ],
   });
+
+  plop.setGenerator('page', {
+    description: 'Create a page',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is your page name?',
+      },
+    ],
+    actions: [
+      // Index file
+      {
+        type: 'add',
+        path: '../app/{{lowerCase name}}/page.tsx',
+        template:
+          "import { {{pascalCase name}}Page } from './{{pascalCase name}}Page';\n" +
+          'export default {{pascalCase name}}Page;',
+      },
+      //Server component
+      {
+        type: 'add',
+        path: '../app/{{lowerCase name}}/{{pascalCase name}}Page.tsx',
+        templateFile: './plop-templates/Page/Page.hbs',
+      },
+      // Client component
+      {
+        type: 'add',
+        path: '../app/{{lowerCase name}}/{{pascalCase name}}PageContainer.tsx',
+        templateFile: './plop-templates/Page/PageContainer.hbs',
+      },
+    ],
+  });
 };

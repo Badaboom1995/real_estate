@@ -34,7 +34,7 @@ const Toggle: React.FC<ToggleProps> = ({
         />
         <div
           className={cn('block bg-gray-600 w-10 h-6 rounded-full', {
-            'bg-sky-400': checked,
+            'bg-primary': checked,
           })}
         ></div>
         <div

@@ -1,0 +1,27 @@
+'use client';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
+import { StoreProvider, StoreContext } from '@/stores/StoreProvider';
+
+interface I{{pascalCase name}}PageView {
+
+}
+
+const {{pascalCase name}}PageView = observer((props: I{{pascalCase name}}PageView) => {
+const {} = props;
+const store = useContext(StoreContext);
+
+return (
+    <div>
+
+    </div>
+    );
+});
+
+export const {{pascalCase name}}PageContainer = (props: any) => {
+return (
+<StoreProvider>
+    <{{pascalCase name}}PageView {...props} />
+</StoreProvider>
+);
+};

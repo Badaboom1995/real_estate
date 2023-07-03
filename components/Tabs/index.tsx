@@ -16,15 +16,15 @@ const Tabs: React.FC<TabsProps> = ({ tabs, className }) => {
 
   return (
     <div className={className}>
-      <div className="flex space-x-2">
+      <div className="flex space-x-2 border-b border-[#D9DBE9] mb-[32px]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`py-2 px-4 rounded-t-lg ${
+            className={`py-2 px-4 text-[20px] font-medium rounded-t border-b-4 ${
               activeTab === tab.id
-                ? 'bg-blue-500 text-white'
-                : 'bg-white text-blue-500'
+                ? 'text-slate-900 border-blue-500'
+                : 'text-slate-500 border-transparent'
             }`}
           >
             {tab.label}

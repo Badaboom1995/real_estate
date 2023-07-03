@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import Image from 'next/image';
 import arrowDown from '@/assets/arrow-down.svg';
+import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
 
 type Option = {
   label: string;
@@ -13,6 +14,8 @@ type SelectProps = {
   name: string;
   options: Option[];
   label?: string;
+  title?: string;
+  placeholder?: string;
   multiple?: boolean;
   className?: string;
   iconLeft?: string;
@@ -25,22 +28,8 @@ const Select: React.FC<SelectProps> = (props) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
-
-  const handleOptionClick = (value: string) => {
-    if (multiple) {
-      setSelectedValues((prevSelectedValues) => {
-        const isSelected = prevSelectedValues.includes(value);
-        if (isSelected) {
-          return prevSelectedValues.filter((val) => val !== value);
-        } else {
-          return [...prevSelectedValues, value];
-        }
-      });
-    } else {
-      setSelectedValues([value]);
-      setIsOpen(false);
-    }
-  };
+  const results = useWatch();
+  const selected = results[name] || [];
 
   const handleToggleOptions = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -68,38 +57,36 @@ const Select: React.FC<SelectProps> = (props) => {
       <div className="relative">
         <button
           type="button"
-          className="w-full flex justify-between items-center bg-white border border-gray-300 rounded-[8px] shadow-sm px-4 py-[14px] mt-2 mr-4 text-left focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className={`${
+            isOpen ? 'border-blue-500' : 'border-gray-300'
+          } w-full flex justify-between items-center bg-white border rounded-[8px] outline-none shadow-sm px-4 py-[14px] mt-2 mr-4 text-left focus:outline-none  focus:border-blue-500`}
           onClick={handleToggleOptions}
         >
           {iconLeft && <img src={iconLeft} />}
-          {multiple && selectedValues.length > 0
-            ? selectedValues
-                .map(
-                  (value) =>
-                    options.find((option) => option.value === value)?.label,
-                )
-                .join(', ')
+          {multiple && selected.length > 0
+            ? selected.join(', ')
             : options.find((option) => option.value === selectedValues[0])
-                ?.label || 'Select an option'}
+                ?.label ||
+              props.placeholder ||
+              'Select...'}
           <Image src={arrowDown} alt={'arrowDown'} />
         </button>
         {isOpen && (
           <div className="absolute z-10 w-full bg-white shadow-md rounded-md mt-1">
             {options.map((option) => (
-              <label
+              <TripleCheckbox
                 key={option.value}
-                className="flex items-center py-2 px-4 cursor-pointer"
+                label={option.label}
+                state={selected?.includes(option.value) ? 'fully' : 'not'}
+                className={'flex items-center py-2 px-4 cursor-pointer w-full'}
               >
                 <input
                   type={multiple ? 'checkbox' : 'radio'}
                   value={option.value}
-                  checked={selectedValues.includes(option.value)}
                   {...register(name)}
-                  onChange={() => handleOptionClick(option.value)}
-                  className="form-checkbox h-5 w-5 text-blue-500"
+                  className="hidden"
                 />
-                <span className="ml-2">{option.label}</span>
-              </label>
+              </TripleCheckbox>
             ))}
           </div>
         )}
