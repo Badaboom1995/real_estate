@@ -7,8 +7,9 @@ import { observer } from 'mobx-react-lite';
 
 interface InfinityScrollProps {
   containerClassName?: string;
+  mapRef?: any;
 }
-const untilListing = 420;
+const untilListing = 400;
 export const InfinityScroll = observer((props: InfinityScrollProps) => {
   const { SearchPageStore } = useContext(StoreContext);
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -23,12 +24,16 @@ export const InfinityScroll = observer((props: InfinityScrollProps) => {
     const handleScroll = () => {
       const { scrollTop, clientHeight, scrollHeight } = scrollContainer;
       const isEndOfPage = scrollTop + clientHeight >= scrollHeight - 500;
+      const { type, bedrooms, city, bathrooms } = SearchPageStore.filters;
       if (isEndOfPage && !isLoading && !endReached) {
         setLoading(true);
         setEnd(true);
         const nextPage = SearchPageStore.currentPage + 1;
         database
-          .fetchEntities(SearchPageStore.filters, false, 12, nextPage)
+          .fetchEntities({
+            filter: { type, bedrooms, city, bathrooms },
+            page: nextPage,
+          })
           .then((res) => {
             setLoading(false);
             if (!res?.data.length) return;
@@ -59,6 +64,7 @@ export const InfinityScroll = observer((props: InfinityScrollProps) => {
         return (
           <PropertyCard
             key={index}
+            mapRef={props.mapRef}
             property={property}
             title={property.name}
             image={property.pictures[0]}

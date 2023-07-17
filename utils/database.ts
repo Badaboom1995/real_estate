@@ -11,16 +11,28 @@ interface Sort {
 export const database = {
   fetchEntities,
 };
+interface fetchParams {
+  filter?: Filter;
+  sort?: Sort | false;
+  limit?: number;
+  page?: number;
+  range?: RangeType[];
+}
+type RangeType = { name: string; min: string; max: string };
+async function fetchEntities(props?: fetchParams) {
+  const defaults: fetchParams = {
+    filter: {},
+    sort: false,
+    limit: 12,
+    page: 1,
+    range: [],
+  };
+  const { filter, sort, limit = 12, page, range } = props || defaults;
 
-async function fetchEntities(
-  filter?: Filter,
-  sort?: Sort | false,
-  limit: number = 12,
-  page?: number,
-) {
   const makeRequest = (isCount?: boolean) => {
     const config = isCount ? { count: 'estimated', head: true } : {};
     let query = supabase.from('NewProperties').select('*', config);
+
     if (page) {
       const range = [(page - 1) * limit, page * limit - 1];
       query.range(range[0], range[1]);
@@ -38,13 +50,21 @@ async function fetchEntities(
         }
       }
     }
+    if (range?.length) {
+      for (const { name, min, max } of range) {
+        query.gt(name, min).lt(name, max);
+      }
+    }
     // if (sort) {
     //   query = query.order(sort.column, { ascending: sort.ascending });
     // }
     return query;
   };
-
   const { data, error } = await makeRequest();
+  const normalizedData = data?.map((item: any) => ({
+    ...item,
+    price_dollar: parseInt(item.price_dollar),
+  }));
   const { count } = await makeRequest(true);
 
   if (error) {
@@ -52,5 +72,5 @@ async function fetchEntities(
     return null;
   }
 
-  return { data, count };
+  return { data: normalizedData, count };
 }

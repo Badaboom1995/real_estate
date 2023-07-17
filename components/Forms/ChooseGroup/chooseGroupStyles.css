@@ -1,0 +1,4 @@
+.choose-group input:checked + label {
+    background-color: #005BD4;
+    color: #FCFCFC;
+}

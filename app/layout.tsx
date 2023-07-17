@@ -1,8 +1,9 @@
 import './globals.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { Inter } from 'next/font/google';
 import { Header } from '@/components/Header';
 import cn from 'classnames';
-
+import { ToastContainer } from 'react-toastify';
 const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
@@ -18,6 +19,7 @@ export default function RootLayout({
           <div className="">{children}</div>
           {/*<p>Footer</p>*/}
         </div>
+        <footer className="p-10 bg-[#262338]">Footer</footer>
       </body>
     </html>
   );

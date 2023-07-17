@@ -5,6 +5,7 @@ import { strings } from '@/utils/strings';
 import Link from 'next/link';
 
 interface PropertyCardProps {
+  mapRef?: any;
   containerClassName?: string;
   property: any;
   title: string;
@@ -42,14 +43,16 @@ export function PropertyCard(props: PropertyCardProps) {
           </Link>
         </div>
       )}
-      <h2 className="text-xl font-bold mb-[4px] w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
-        {title}
-      </h2>
-      <p className="text-gray-400 text-sm mb-[8px] text-[14px]">{address}</p>
-      <p className="text-gray-600 mb-[8px]">{features}</p>
-      <p className="text-gray-900 font-medium text-[18px]">
-        {price ? `$ ${strings.addSpaces(price)}` : 'Unknown price'}
-      </p>
+      <div className="p-[16px] text-left">
+        <h2 className="text-lg font-bold mb-[4px] w-full overflow-hidden overflow-ellipsis whitespace-nowrap">
+          {title}
+        </h2>
+        <p className="text-gray-400 text-sm mb-[8px] text-[14px]">{address}</p>
+        <p className="text-gray-600 mb-[8px]">{features}</p>
+        <p className="text-gray-900 font-medium text-[18px]">
+          {price ? `$ ${strings.addSpaces(price)}` : 'Unknown price'}
+        </p>
+      </div>
     </div>
   );
 }

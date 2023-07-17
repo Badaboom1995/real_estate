@@ -1,10 +1,9 @@
-import cn from 'classnames';
 import { Typography } from '@/components/Typography';
-import Image from 'next/image';
 
 interface CategoryCardProps {
   containerClassName?: string;
   title: string;
+  bg?: string;
 }
 
 const Arrow = ({ fill }: { fill: string }) => (
@@ -20,19 +19,25 @@ const Arrow = ({ fill }: { fill: string }) => (
         id="Vector"
         d="M9.71707 5L3 12L9.71707 19M4.26688 12.0317H19.9999"
         stroke={fill}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </g>
   </svg>
 );
 
 export function CategoryCard(props: CategoryCardProps) {
-  const { containerClassName, title } = props;
+  const { title } = props;
 
   return (
-    <div className="relative h-[270px] rounded bg-blue-400">
+    <div
+      className="relative h-[270px] rounded bg-blue-400"
+      style={{
+        backgroundImage: `url(${props.bg})`,
+        backgroundPosition: 'center',
+      }}
+    >
       <Typography
         type="h2"
         className="absolute bottom-[32px] left-[32px] text-white"

@@ -1,0 +1,22 @@
+/*.radioInput + label:before {*/
+/*    content: '';*/
+/*    width: 12px;*/
+/*    height: 12px;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+.radioInput+ label {
+   position: relative;
+}
+.radioInput:checked + label:before {
+    content: '';
+    position: absolute;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-color: #005BD4;
+}

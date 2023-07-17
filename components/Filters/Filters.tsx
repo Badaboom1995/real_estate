@@ -10,18 +10,21 @@ import { StoreContext } from '@/stores/StoreProvider';
 import { database } from '@/utils/database';
 import { useRouter, usePathname } from 'next/navigation';
 import { getCountryArray } from '@/utils/getCountriesArray';
+import { PriceRange } from '@/components/Range/Range';
+import { BedsAndBaths } from '@/components/BedsAndBaths';
+import { strings } from '@/utils/strings';
 
 interface FiltersProps {
   containerClassName?: string;
-  //todo any
 }
 
 interface FormData {
   name: string;
   city: string[];
-  email: string;
-  password: string;
-  role: string;
+  minPrice: string;
+  maxPrice: string;
+  bedrooms: string[];
+  bathrooms: string[];
 }
 
 export const Filters = observer((props: FiltersProps) => {
@@ -30,13 +33,12 @@ export const Filters = observer((props: FiltersProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const methods = useForm<FormData>({
-    defaultValues: {
-      city: [],
-    },
+    defaultValues: SearchPageStore.filters,
   });
   const { handleSubmit } = methods;
 
   useEffect(() => {
+    console.log(JSON.parse(JSON.stringify(SearchPageStore.filters)));
     getCountryArray().then((res) => {
       const locations = res.data?.map((entity) => {
         return {
@@ -51,15 +53,36 @@ export const Filters = observer((props: FiltersProps) => {
   const onSubmit = (data: FormData) => {
     setLoading(true);
     SearchPageStore.setFilters(data);
-    const filter: any = data;
-    database.fetchEntities(filter, false, 10).then((res) => {
-      SearchPageStore.setProperties(res?.data);
-      SearchPageStore.setCount(res?.count);
-      if (pathname !== '/search') {
-        router.push('/search');
-      }
-      setLoading(false);
-    });
+    const filter: any = { ...data };
+    const { minPrice, maxPrice } = data;
+    delete filter.minPrice;
+    delete filter.maxPrice;
+    database
+      .fetchEntities({
+        filter,
+        sort: false,
+        range: [{ name: 'price_dollar', min: minPrice, max: maxPrice }],
+      })
+      .then((res) => {
+        SearchPageStore.setProperties(res?.data);
+        SearchPageStore.setCount(res?.count);
+        if (pathname !== '/search') {
+          router.push('/search');
+        }
+        setLoading(false);
+      });
+  };
+
+  const showBathBedPlaceholder = () => {
+    let bathrooms = '';
+    let bedrooms = '';
+    if (SearchPageStore.filters.bedrooms.length !== 0) {
+      bedrooms = `${SearchPageStore.filters.bedrooms.join(',')} bd`;
+    }
+    if (SearchPageStore.filters.bathrooms.length !== 0) {
+      bathrooms = `${SearchPageStore.filters.bathrooms.join(',')} ba`;
+    }
+    return !bathrooms && !bedrooms ? '' : `${bedrooms} | ${bathrooms}`;
   };
 
   const inputClass = 'w-[16.66%] max-w-[245px] grow';
@@ -79,6 +102,7 @@ export const Filters = observer((props: FiltersProps) => {
               methods={methods}
               data={SearchPageStore.dicts.locations}
             />
+
             <Select
               className={inputClass}
               name="type"
@@ -95,29 +119,26 @@ export const Filters = observer((props: FiltersProps) => {
             />
             <Select
               className={inputClass}
-              name="bedrooms"
-              label="Bedrooms"
-              placeholder="Any"
-              options={[
-                { value: '1', label: '1' },
-                { value: '2', label: '2' },
-                { value: '3', label: '3' },
-              ]}
-              multiple={true}
+              label="Price"
+              name="priceRange"
+              placeholder={`${
+                SearchPageStore.filters.minPrice
+              } - ${strings.addCommas(SearchPageStore.filters.maxPrice)} USD`}
+              content={<PriceRange rightBorder={12200} methods={methods} />}
             />
             <Select
               className={inputClass}
-              name="price"
-              label="Price"
-              placeholder="Any"
-              options={[
-                { value: 'admin', label: 'Admin' },
-                { value: 'user', label: 'User' },
-              ]}
-              multiple={true}
+              label="Bedrooms & bathrooms"
+              name="bedsAndBaths"
+              placeholder={showBathBedPlaceholder()}
+              content={<BedsAndBaths />}
             />
             <div>
-              <Button iconLeft={filtersIcon} variant="transparent">
+              <Button
+                iconLeft={filtersIcon}
+                variant="transparent"
+                type="button"
+              >
                 Filters
               </Button>
             </div>

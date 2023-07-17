@@ -12,6 +12,7 @@ type ButtonProps = {
   iconLeft?: string;
   loading?: boolean;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -24,6 +25,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     iconLeft,
     loading,
     onClick,
+    type,
   } = props;
 
   const colorStyles = {
@@ -54,6 +56,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     <button
       onClick={onClick}
       disabled={loading}
+      type={type}
       className={cn(
         className,
         'flex gap-[8px] text-black items-center disabled:opacity-50 border items-center',

@@ -7,7 +7,7 @@ const PropertyType = types.model('PropertyType', {
   name: types.maybeNull(types.string),
   type: types.maybeNull(types.string),
   description: types.maybeNull(types.string),
-  price_dollar: types.maybeNull(types.string),
+  price_dollar: types.maybeNull(types.number),
   pictures: types.maybeNull(types.array(types.string)),
   bedrooms: types.maybeNull(types.number),
   bathrooms: types.maybeNull(types.number),
@@ -34,6 +34,7 @@ const LocationType = types.model('LocationType', {
 export const SearchPageModel = types
   .model({
     isMapVisible: types.boolean,
+    mapRef: types.maybeNull(types.frozen()),
     dicts: types.model({
       locations: types.array(LocationType),
       types: types.array(types.string),
@@ -41,8 +42,12 @@ export const SearchPageModel = types
     filters: types.model('filtersType', {
       city: types.array(types.string),
       type: types.array(types.string),
+      minPrice: types.string,
+      maxPrice: types.string,
+      bedrooms: types.array(types.string),
+      bathrooms: types.array(types.string),
     }),
-    properties: types.optional(types.array(PropertyType), []),
+    properties: types.array(PropertyType),
     propertiesCount: types.optional(types.number, 0),
     currentPage: types.optional(types.number, 1),
   })
@@ -50,8 +55,11 @@ export const SearchPageModel = types
     toggleMap() {
       self.isMapVisible = !self.isMapVisible;
     },
+    setMapRef(mapRef: any) {
+      self.mapRef = mapRef;
+    },
     setCount(count: number) {
-      self.propertiesCount = count;
+      self.propertiesCount = count || 0;
     },
     //todo fix type
     setFilters(filters: any) {
@@ -62,8 +70,8 @@ export const SearchPageModel = types
       self.properties.replace(properties);
     },
     addProperties(properties: any) {
-      console.log('addprops');
       self.properties.push(...properties);
+      self.currentPage += 1;
     },
     setDict(name: 'locations' | 'types', dict: any) {
       self.dicts[name] = dict;
@@ -84,6 +92,11 @@ export const searchPageDefault = {
   },
   filters: {
     city: [],
+    type: [],
+    minPrice: '0',
+    maxPrice: '1000000',
+    bedrooms: [],
+    bathrooms: [],
   },
   properties: [],
   page: 1,

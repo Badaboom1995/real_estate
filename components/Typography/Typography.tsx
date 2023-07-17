@@ -25,7 +25,7 @@ export const Typography: React.FC<TextProps> = ({
     case 'h2':
       return <h2 className={`text-xl font-[600] ${className}`}>{children}</h2>;
     case 'h3':
-      return <h3 className={`text-lg font-[600] ${className}`}>{children}</h3>;
+      return <h3 className={`text-lg font-[500] ${className}`}>{children}</h3>;
     case 'paragraph':
       return (
         <p className={`text-base text-[#4E4B66] leading-8 ${className}`}>

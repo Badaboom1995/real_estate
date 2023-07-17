@@ -7,16 +7,18 @@ import { PropertyCard } from '@/components/PropertyCard';
 import { database } from '@/utils/database';
 import React from 'react';
 import { CategoryCard } from '@/components/CategoryCard';
+import heroBG from '@/assets/heroBG.jpg';
+import Image from 'next/image';
 
 const Home = async () => {
-  const latest = (await database.fetchEntities()) || {
+  const latest = (await database.fetchEntities({})) || {
     data: [],
     count: 0,
   };
   return (
     <main className="w-full">
-      <section className="bg-indigo-500 p-[56px] pb-[173px] rounded">
-        <div className="w-[660px] text-white">
+      <section className="relative p-[56px] pb-[173px] rounded">
+        <div className="relative w-[660px] text-white z-10">
           <Typography type="hero" className="mb-[24px]">
             Real estate in the Caribbean for living and investment
           </Typography>
@@ -34,6 +36,11 @@ const Home = async () => {
           </div>
         </div>
         <div className="controls"></div>
+        <Image
+          src={heroBG}
+          alt=""
+          className="absolute top-0 left-0 right-0 rounded"
+        />
       </section>
       <section className="-translate-y-1/2 w-[1232px] m-auto">
         <Filters />
@@ -68,21 +75,77 @@ const Home = async () => {
           ))}
         </Slider>
       </section>
-      <section className="category">
-        <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
-          <CategoryCard title="Beach Houses " />
-          <CategoryCard title="Beach Houses " />
+      <section className="mb-[96px]">
+        <div className="flex justify-between w-full items-center mb-[56px]">
+          <Typography type="h1">
+            Browse Caribbean Real Estate by Category
+          </Typography>
+          <Button variant="transparent">Show all</Button>
         </div>
-        <div className="grid grid-cols-4 gap-[24px]">
-          <CategoryCard title="Beach Houses " />
-          <CategoryCard title="Beach Houses " />
-          <CategoryCard title="Beach Houses " />
-          <CategoryCard title="Beach Houses " />
+        <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
+          <CategoryCard
+            title="Beach Houses "
+            bg="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+          />
+          <CategoryCard
+            title="Beach Houses "
+            bg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2373&q=80"
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-[24px]">
+          <CategoryCard
+            title="Beach Houses "
+            bg="https://images.unsplash.com/photo-1689092598007-d1bd432e3c80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGNhcnJpYmVhbiUyMGlzbGFuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          />
+          <CategoryCard
+            title="Beach Houses "
+            bg="https://images.unsplash.com/photo-1627512729059-fb322f8436f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2204&q=80"
+          />
+          <CategoryCard
+            title="Beach Houses "
+            bg="https://images.unsplash.com/photo-1568548634530-38ee433dcc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGNhcnJpYmVhbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          />
         </div>
       </section>
-      <section className="destinations">
-        <div className="controls"></div>
-        <div className="cards"></div>
+      <section className="mb-[56px]">
+        <div className="flex justify-between w-full items-center mb-[56px]">
+          <Typography type="h1">Top Destinations</Typography>
+          <Button variant="transparent">Show all destinations</Button>
+        </div>
+        <div className="grid grid-cols-4 gap-[24px]">
+          <div className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded">
+            <Typography type="text" className="text-white">
+              Discover
+            </Typography>
+            <Typography type="h2" className="text-white">
+              Place Name
+            </Typography>
+          </div>
+          <div className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded">
+            <Typography type="text" className="text-white">
+              Discover
+            </Typography>
+            <Typography type="h2" className="text-white">
+              Place Name
+            </Typography>
+          </div>
+          <div className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded">
+            <Typography type="text" className="text-white">
+              Discover
+            </Typography>
+            <Typography type="h2" className="text-white">
+              Place Name
+            </Typography>
+          </div>
+          <div className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded">
+            <Typography type="text" className="text-white">
+              Discover
+            </Typography>
+            <Typography type="h2" className="text-white">
+              Place Name
+            </Typography>
+          </div>
+        </div>
       </section>
       <section className="filteredListing">
         <header className="top">
