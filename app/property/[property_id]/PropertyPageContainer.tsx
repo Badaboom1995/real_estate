@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreProvider, StoreContext } from '@/stores/StoreProvider';
 import Button from '@/components/Button';
@@ -34,6 +34,7 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
   const { id } = props;
   const property = SearchPageStore.getPropertyById(id);
   const [isModalOpen, setIsOpen] = useState(false);
+  const [mapRef, setMapRef] = useState(null);
 
   return (
     <div>
@@ -221,7 +222,7 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
               {`${property?.country}, ${property?.city} `}
             </Typography>
             <div className="w-[862px] h-[420px] bg-slate-200 overflow-hidden">
-              <Map mapRef={''} setMapRef={() => {}} />
+              <Map mapRef={mapRef} setMapRef={setMapRef} />
             </div>
           </section>
           <section className="border border-[#F7F7FC] rounded bg-white p-[24px] mb-[56px]">
