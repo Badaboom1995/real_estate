@@ -52,60 +52,111 @@ export const PriceRange: React.FC<IPriceRange> = (props) => {
           />
         </div>
       </div>
-      {/*<Range*/}
-      {/*  values={[setMinPrice(min), setMaxPrice(max)]}*/}
-      {/*  step={5}*/}
-      {/*  min={0}*/}
-      {/*  max={rightBorder}*/}
-      {/*  onChange={(values) => {*/}
-      {/*    methods.setValue('minPrice', `${values[0]}`);*/}
-      {/*    methods.setValue('maxPrice', `${values[1]}`);*/}
-      {/*    setMin(values[0]);*/}
-      {/*    setMax(values[1]);*/}
-      {/*  }}*/}
-      {/*  renderTrack={({ props, children }) => (*/}
-      {/*    <div*/}
-      {/*      onMouseDown={props.onMouseDown}*/}
-      {/*      onTouchStart={props.onTouchStart}*/}
-      {/*      style={{*/}
-      {/*        ...props.style,*/}
-      {/*        height: '6px',*/}
-      {/*        width: '100%',*/}
-      {/*        backgroundColor: '#ccc',*/}
-      {/*      }}*/}
-      {/*      className="rounded-full"*/}
-      {/*    >*/}
-      {/*      <div*/}
-      {/*        ref={props.ref}*/}
-      {/*        style={{*/}
-      {/*          height: '5px',*/}
-      {/*          width: '100%',*/}
-      {/*          borderRadius: '4px',*/}
-      {/*          background: getTrackBackground({*/}
-      {/*            values: [setMinPrice(min), setMaxPrice(max)],*/}
-      {/*            colors: ['#ccc', '#548BF4', '#ccc'],*/}
-      {/*            min: 0,*/}
-      {/*            max: rightBorder,*/}
-      {/*          }),*/}
-      {/*        }}*/}
-      {/*        className="rounded-full"*/}
-      {/*      >*/}
-      {/*        {children}*/}
-      {/*      </div>*/}
-      {/*    </div>*/}
-      {/*  )}*/}
-      {/*  renderThumb={({ props }) => (*/}
-      {/*    <div*/}
-      {/*      {...props}*/}
-      {/*      style={{*/}
-      {/*        ...props.style,*/}
-      {/*        height: '24px',*/}
-      {/*        width: '24px',*/}
-      {/*      }}*/}
-      {/*      className={`rounded-full cursor-pointer bg-primary `}*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*/>*/}
+      <div className="hidden">
+        <Range
+          values={[1, 2]}
+          step={5}
+          min={0}
+          max={rightBorder}
+          onChange={(values) => {}}
+          renderTrack={({ props, children }) => (
+            <div
+              onMouseDown={props.onMouseDown}
+              onTouchStart={props.onTouchStart}
+              style={{
+                ...props.style,
+                height: '6px',
+                width: '100%',
+                backgroundColor: '#ccc',
+              }}
+              className="rounded-full"
+            >
+              <div
+                ref={props.ref}
+                style={{
+                  height: '5px',
+                  width: '100%',
+                  borderRadius: '4px',
+                  background: getTrackBackground({
+                    values: [1, 2],
+                    colors: ['#ccc', '#548BF4', '#ccc'],
+                    min: 0,
+                    max: rightBorder,
+                  }),
+                }}
+                className="rounded-full"
+              >
+                {children}
+              </div>
+            </div>
+          )}
+          renderThumb={({ props }) => (
+            <div
+              {...props}
+              style={{
+                ...props.style,
+                height: '24px',
+                width: '24px',
+              }}
+              className={`rounded-full cursor-pointer bg-primary `}
+            />
+          )}
+        />
+        {/*<Range*/}
+        {/*  values={[setMinPrice(min), setMaxPrice(max)]}*/}
+        {/*  step={5}*/}
+        {/*  min={0}*/}
+        {/*  max={rightBorder}*/}
+        {/*  onChange={(values) => {*/}
+        {/*    methods.setValue('minPrice', `${values[0]}`);*/}
+        {/*    methods.setValue('maxPrice', `${values[1]}`);*/}
+        {/*    setMin(values[0]);*/}
+        {/*    setMax(values[1]);*/}
+        {/*  }}*/}
+        {/*  renderTrack={({ props, children }) => (*/}
+        {/*    <div*/}
+        {/*      onMouseDown={props.onMouseDown}*/}
+        {/*      onTouchStart={props.onTouchStart}*/}
+        {/*      style={{*/}
+        {/*        ...props.style,*/}
+        {/*        height: '6px',*/}
+        {/*        width: '100%',*/}
+        {/*        backgroundColor: '#ccc',*/}
+        {/*      }}*/}
+        {/*      className="rounded-full"*/}
+        {/*    >*/}
+        {/*      <div*/}
+        {/*        ref={props.ref}*/}
+        {/*        style={{*/}
+        {/*          height: '5px',*/}
+        {/*          width: '100%',*/}
+        {/*          borderRadius: '4px',*/}
+        {/*          background: getTrackBackground({*/}
+        {/*            values: [setMinPrice(min), setMaxPrice(max)],*/}
+        {/*            colors: ['#ccc', '#548BF4', '#ccc'],*/}
+        {/*            min: 0,*/}
+        {/*            max: rightBorder,*/}
+        {/*          }),*/}
+        {/*        }}*/}
+        {/*        className="rounded-full"*/}
+        {/*      >*/}
+        {/*        {children}*/}
+        {/*      </div>*/}
+        {/*    </div>*/}
+        {/*  )}*/}
+        {/*  renderThumb={({ props }) => (*/}
+        {/*    <div*/}
+        {/*      {...props}*/}
+        {/*      style={{*/}
+        {/*        ...props.style,*/}
+        {/*        height: '24px',*/}
+        {/*        width: '24px',*/}
+        {/*      }}*/}
+        {/*      className={`rounded-full cursor-pointer bg-primary `}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*/>*/}
+      </div>
     </div>
   );
 };
