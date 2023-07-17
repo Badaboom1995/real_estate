@@ -1,1 +1,1 @@
-export { Range } from './Range';
+export { PriceRange } from './Range';
