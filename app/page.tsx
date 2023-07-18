@@ -17,7 +17,13 @@ const Home = async () => {
   };
   return (
     <main className="w-full">
-      <section className="relative p-[56px] pb-[173px] rounded">
+      <section
+        className="relative p-[56px] pb-[173px] rounded"
+        style={{
+          backgroundImage: `url(${heroBG.src})`,
+          backgroundPosition: 'center',
+        }}
+      >
         <div className="relative w-[660px] text-white z-10">
           <Typography type="hero" className="mb-[24px]">
             Real estate in the Caribbean for living and investment
@@ -36,11 +42,11 @@ const Home = async () => {
           </div>
         </div>
         <div className="controls"></div>
-        <Image
-          src={heroBG}
-          alt=""
-          className="absolute top-0 left-0 right-0 rounded"
-        />
+        {/*<Image*/}
+        {/*  src={heroBG}*/}
+        {/*  alt=""*/}
+        {/*  className="absolute top-0 left-0 right-0 rounded"*/}
+        {/*/>*/}
       </section>
       <section className="-translate-y-1/2 w-[1232px] m-auto">
         <Filters />
