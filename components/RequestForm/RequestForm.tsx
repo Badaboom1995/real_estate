@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography';
 import Button from '@/components/Button';
 import { RadioGroup } from '@/components/Forms/RadioGroup';
 import { toast, ToastContainer } from 'react-toastify';
+import supabase from '@/database/supabase';
 
 interface RequestFormProps {
   containerClassName?: string;
@@ -21,9 +22,14 @@ export function RequestForm(props: RequestFormProps) {
     containerClassName,
     'w-[520px] max-h-[90vh] p-[32px] overflow-scroll',
   );
-
+  const camelToSnakeCase = (str: string): string =>
+    str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   const onSubmit = (data: any) => {
     console.log(data);
+    const requestData: Record<string, string> = {};
+    for (let key in data) {
+      requestData[camelToSnakeCase(key)] = data[key];
+    }
     toast.success('Your request has been sent', {
       position: 'top-right',
       autoClose: 5000,
@@ -34,6 +40,11 @@ export function RequestForm(props: RequestFormProps) {
       progress: undefined,
       theme: 'colored',
     });
+    supabase
+      .from('Requests')
+      .insert([requestData])
+      .then(console.log)
+      .catch(console.error);
     onClose();
   };
   const InfoField = ({ children }: { children: React.ReactElement[] }) => (
