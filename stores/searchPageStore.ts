@@ -42,8 +42,8 @@ export const SearchPageModel = types
     filters: types.model('filtersType', {
       city: types.array(types.string),
       type: types.array(types.string),
-      minPrice: types.string,
-      maxPrice: types.string,
+      minPrice: types.optional(types.string, '0'),
+      maxPrice: types.optional(types.string, '99999999'),
       bedrooms: types.array(types.string),
       bathrooms: types.array(types.string),
     }),
@@ -82,6 +82,9 @@ export const SearchPageModel = types
     getPropertyById(id: string) {
       return self.properties.find((property) => property.id === parseInt(id));
     },
+    getFiltersString(id: string) {
+      return self.properties.find((property) => property.id === parseInt(id));
+    },
   }));
 
 export const searchPageDefault = {
@@ -94,7 +97,7 @@ export const searchPageDefault = {
     city: [],
     type: [],
     minPrice: '0',
-    maxPrice: '1000000',
+    maxPrice: '99999999',
     bedrooms: [],
     bathrooms: [],
   },

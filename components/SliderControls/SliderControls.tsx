@@ -1,4 +1,4 @@
-import arrowDown from '@/assets/arrow-down.svg';
+import arrowDown from '@/app/(main)/assets/arrow-down.svg';
 import Image from 'next/image';
 
 interface SliderControlsProps {

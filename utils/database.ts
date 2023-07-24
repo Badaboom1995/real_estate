@@ -10,6 +10,7 @@ interface Sort {
 
 export const database = {
   fetchEntities,
+  fetchEntity,
 };
 interface fetchParams {
   filter?: Filter;
@@ -69,8 +70,20 @@ async function fetchEntities(props?: fetchParams) {
 
   if (error) {
     console.error('error', error);
-    return null;
+    return { data: [], count: 0, error };
   }
 
-  return { data: normalizedData, count };
+  return { data: normalizedData, count, error };
+}
+
+async function fetchEntity(id: string) {
+  const { data, error } = await supabase
+    .from('NewProperties')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) throw new Error(error.message);
+  console.log(data);
+  return data;
 }

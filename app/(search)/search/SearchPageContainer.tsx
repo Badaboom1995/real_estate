@@ -5,9 +5,12 @@ import { observer } from 'mobx-react-lite';
 import { PropertyType } from '@/types/Property';
 import { StoreProvider, StoreContext } from '@/stores/StoreProvider';
 import cn from 'classnames';
-import { Group } from '@/app/search/types';
+import { Group } from '@/app/(search)/search/types';
 import { InfinityScroll } from '@/components/InfinityScroll';
 import { Map } from '@/components/Map';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { normalizeFilters } from '@/components/Filters/utils/normalizeFilters';
+import { paramsToObject } from '@/utils/objectToParams';
 
 const headerHeight = 118;
 
@@ -22,8 +25,11 @@ const SearchPageView = observer((props: ISearchPageView) => {
   const { SearchPageStore } = useContext(StoreContext);
   const [mapRef, setMapRef] = useState(null);
   const searchPageHeight = `calc(100vh - ${headerHeight}px)`;
+  const params = useSearchParams();
+  const filtersFromURL = normalizeFilters(paramsToObject(params?.entries()));
 
   useEffect(() => {
+    // SearchPageStore.setFilters(filtersFromURL);
     SearchPageStore.setDict('locations', locations);
     SearchPageStore.setProperties(properties);
     SearchPageStore.setCount(count);
@@ -32,7 +38,7 @@ const SearchPageView = observer((props: ISearchPageView) => {
   return (
     <div style={{ height: searchPageHeight }} className={'overflow-hidden'}>
       <section>
-        <Filters />
+        <Filters defaultValues={filtersFromURL} />
       </section>
       <section>
         <div className="flex justify-between w-full">

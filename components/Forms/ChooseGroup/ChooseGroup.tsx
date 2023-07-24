@@ -24,7 +24,7 @@ const ChooseButton: FC<RadioButtonProps> = ({
     <div className={'choose-group'}>
       <input
         id={id}
-        {...register(name)}
+        {...register(name, { value: [] })}
         type={type}
         className="hidden"
         value={value}

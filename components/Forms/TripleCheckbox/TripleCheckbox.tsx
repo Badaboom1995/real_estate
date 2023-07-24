@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 type CheckboxState = 'fully' | 'partly' | 'not';
-import checkboxChecked from '@/assets/check_box.svg';
-import checkboxEmpty from '@/assets/check_box_outline_blank.svg';
+import checkboxChecked from '@/app/(main)/assets/check_box.svg';
+import checkboxEmpty from '@/app/(main)/assets/check_box_outline_blank.svg';
 import Image from 'next/image';
 
 interface TriStateCheckboxProps {

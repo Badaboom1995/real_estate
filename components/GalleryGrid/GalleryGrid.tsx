@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import Image from 'next/image';
-import photo from '@/assets/photo.svg';
+import photo from '@/app/(main)/assets/photo.svg';
 
 interface GalleryGridProps {
   className?: string;
@@ -34,40 +34,48 @@ export const GalleryGrid = (props: GalleryGridProps) => {
       </div>
       <div className="grid grid-cols-2 gap-[2px] gap-y-[1px]">
         <div className="h-[248px] bg-gray-300">
-          <Image
-            className={'w-full h-full object-cover'}
-            src={pictures[1]}
-            width={670}
-            height={500}
-            alt="hero-picture"
-          />
+          {pictures[1] && (
+            <Image
+              className={'w-full h-full object-cover'}
+              src={pictures[1]}
+              width={670}
+              height={500}
+              alt="hero-picture"
+            />
+          )}
         </div>
         <div className="h-[248px] bg-gray-300">
-          <Image
-            className={'w-full h-full object-cover'}
-            src={pictures[2]}
-            width={670}
-            height={500}
-            alt="hero-picture"
-          />
+          {pictures[2] && (
+            <Image
+              className={'w-full h-full object-cover'}
+              src={pictures[2]}
+              width={670}
+              height={500}
+              alt="hero-picture"
+            />
+          )}
         </div>
         <div className="h-[248px] bg-gray-300">
-          <Image
-            className={'w-full h-full object-cover'}
-            src={pictures[3]}
-            width={670}
-            height={500}
-            alt="hero-picture"
-          />
+          {pictures[3] && (
+            <Image
+              className={'w-full h-full object-cover'}
+              src={pictures[3]}
+              width={670}
+              height={500}
+              alt="hero-picture"
+            />
+          )}
         </div>
         <div className="h-[248px] bg-gray-300">
-          <Image
-            className={'w-full h-full object-cover'}
-            src={pictures[4]}
-            width={670}
-            height={500}
-            alt="hero-picture"
-          />
+          {pictures[4] && (
+            <Image
+              className={'w-full h-full object-cover'}
+              src={pictures[4]}
+              width={670}
+              height={500}
+              alt="hero-picture"
+            />
+          )}
         </div>
       </div>
     </div>

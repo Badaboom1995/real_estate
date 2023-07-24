@@ -9,12 +9,12 @@ import { TextContainer } from '@/components/TextContainer';
 import { GalleryGrid } from '@/components/GalleryGrid';
 import { useRouter } from 'next/navigation';
 import { strings } from '@/utils/strings';
-import backArrow from '@/assets/backArrow.svg';
-import share from '@/assets/share.svg';
-import favorite from '@/assets/favorite.svg';
-import favoritePrimary from '@/assets/favorite-primary.svg';
-import shareWhite from '@/assets/share-white.svg';
-import pin from '@/assets/pin.svg';
+import backArrow from '@/app/(main)/assets/backArrow.svg';
+import share from '@/app/(main)/assets/share.svg';
+import favorite from '@/app/(main)/assets/favorite.svg';
+import favoritePrimary from '@/app/(main)/assets/favorite-primary.svg';
+import shareWhite from '@/app/(main)/assets/share-white.svg';
+import pin from '@/app/(main)/assets/pin.svg';
 import Image from 'next/image';
 import { Slider } from '@/components/Slider';
 import { PropertyCard } from '@/components/PropertyCard';
@@ -24,18 +24,16 @@ import { ToastContainer } from 'react-toastify';
 import { Map } from '@/components/Map';
 
 interface IPropertyPageView {
-  id: string;
-  router: any;
+  data: any;
 }
 
 export const PropertyPageView = observer((props: IPropertyPageView) => {
   const { SearchPageStore } = useContext(StoreContext);
   const router = useRouter();
-  const { id } = props;
-  const property = SearchPageStore.getPropertyById(id);
   const [isModalOpen, setIsOpen] = useState(false);
   const [mapRef, setMapRef] = useState(null);
-
+  console.log(props.data);
+  const property = props.data;
   return (
     <div>
       <ToastContainer />

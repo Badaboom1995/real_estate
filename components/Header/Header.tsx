@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import { Menu } from '@/components/Menu';
 import Button from '@/components/Button';
-import logo from '@/assets/logo.svg';
+import logo from '@/app/(main)/assets/logo.svg';
 import Link from 'next/link';
 import Image from 'next/image';
 

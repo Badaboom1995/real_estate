@@ -2,9 +2,8 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import Image from 'next/image';
-import arrowDown from '@/assets/arrow-down.svg';
+import arrowDown from '@/app/(main)/assets/arrow-down.svg';
 import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
-import { StoreContext } from '@/stores/StoreProvider';
 
 type Option = {
   label: string;
@@ -12,7 +11,7 @@ type Option = {
 };
 
 type SelectProps = {
-  name: string;
+  name?: string;
   options?: Option[];
   content?: React.ReactElement;
   label?: string;
@@ -24,17 +23,22 @@ type SelectProps = {
 };
 
 const Select: React.FC<SelectProps> = (props) => {
-  const { name, label, options, multiple, className, iconLeft, content } =
-    props;
-  const { SearchPageStore } = useContext(StoreContext);
+  const {
+    name = '',
+    label,
+    options,
+    multiple,
+    className,
+    iconLeft,
+    content,
+  } = props;
   const { register, getValues } = useFormContext();
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
-  const results = useWatch();
-  const selected = results[name] || [];
-
+  const values = useWatch();
+  const selected = values[name] || [];
   const handleToggleOptions = () => {
+    console.log(isOpen);
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
@@ -55,8 +59,23 @@ const Select: React.FC<SelectProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    // SearchPageStore.setFilters(getValues());
+    if (!isOpen) {
+      console.log('getValues', getValues());
+      // SearchPageStore.setFilters(getValues());
+    }
   }, [isOpen]);
+
+  const getLabel = () => {
+    console.log('selected', selected);
+    if (!selected.length || !Array.isArray(selected)) return 'Any';
+    if (!multiple) return selected[0];
+    return selected.join(', ') || props.placeholder;
+    // return multiple && selected.length > 0 && Array.isArray(selected)
+    //   ? selected?.join(', ')
+    //   : options?.find((option) => option.value === selectedValues[0])?.label ||
+    //       props.placeholder ||
+    //       'Any';
+  };
 
   return (
     <div ref={selectRef} className={`relative ${className}`}>
@@ -70,12 +89,7 @@ const Select: React.FC<SelectProps> = (props) => {
           onClick={handleToggleOptions}
         >
           {iconLeft && <img src={iconLeft} />}
-          {multiple && selected.length > 0
-            ? selected.join(', ')
-            : options?.find((option) => option.value === selectedValues[0])
-                ?.label ||
-              props.placeholder ||
-              'Any'}
+          {getLabel()}
           <Image src={arrowDown} alt={'arrowDown'} />
         </button>
         {isOpen && content && (
@@ -85,9 +99,9 @@ const Select: React.FC<SelectProps> = (props) => {
         )}
         {isOpen && !content && (
           <div className="absolute z-10 w-full bg-white shadow-md rounded-md mt-2 border border-[#D9DBE9]">
-            {options?.map((option) => (
+            {options?.map((option, index) => (
               <TripleCheckbox
-                key={option.value}
+                key={index}
                 label={option.label}
                 state={selected?.includes(option.value) ? 'fully' : 'not'}
                 className={'flex items-center py-2 px-4 cursor-pointer w-full'}
@@ -95,7 +109,7 @@ const Select: React.FC<SelectProps> = (props) => {
                 <input
                   type={multiple ? 'checkbox' : 'radio'}
                   value={option.value}
-                  {...register(name)}
+                  {...register(name, { value: [] })}
                   className="hidden"
                 />
               </TripleCheckbox>

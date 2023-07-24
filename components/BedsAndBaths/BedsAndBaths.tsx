@@ -1,13 +1,32 @@
 import cn from 'classnames';
 import { ChooseGroup } from '@/components/Forms/ChooseGroup';
+import { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 interface BedsAndBathsProps {
   className?: string;
+  setTitle: (title: string) => void;
 }
 
 export function BedsAndBaths(props: BedsAndBathsProps) {
-  const { className } = props;
+  const { className, setTitle } = props;
   const containerClasses = cn(className);
+  const { watch } = useFormContext();
+  const beds = watch('bedrooms', []);
+  const baths = watch('bathrooms', []);
+
+  const showBathBedPlaceholder = (beds: string[], baths: string[]) => {
+    let bathrooms = baths.length ? baths.join(',') + ' bd' : '';
+    let bedrooms = beds.length ? beds.join(',') + ' ba' : '';
+    if (!bathrooms && !bedrooms) return 'Any';
+    if (!bathrooms) return bedrooms;
+    if (!bedrooms) return bathrooms;
+    return `${bedrooms} | ${bathrooms}`;
+  };
+  useEffect(() => {
+    console.log('run', beds, baths);
+    setTitle(showBathBedPlaceholder(beds, baths));
+  }, [beds, baths]);
 
   return (
     <div className={containerClasses}>

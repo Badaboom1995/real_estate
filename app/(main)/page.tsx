@@ -1,3 +1,5 @@
+// 'use client';
+import React from 'react';
 import { Typography } from '@/components/Typography';
 import Button from '@/components/Button';
 import Link from 'next/link';
@@ -5,10 +7,8 @@ import { Filters } from '@/components/Filters';
 import { Slider } from '@/components/Slider';
 import { PropertyCard } from '@/components/PropertyCard';
 import { database } from '@/utils/database';
-import React from 'react';
 import { CategoryCard } from '@/components/CategoryCard';
-import heroBG from '@/assets/heroBG.jpg';
-import Image from 'next/image';
+import heroBG from '@/app/(main)/assets/heroBG.jpg';
 
 const Home = async () => {
   const latest = (await database.fetchEntities({})) || {
@@ -33,7 +33,7 @@ const Home = async () => {
             coves for swimming and paddleboarding.
           </Typography>
           <div className="flex gap-[8px]">
-            <Link href={'/search'}>
+            <Link href="/search">
               <Button color="white">Search property</Button>
             </Link>
             <Button color="white" variant="transparent">
@@ -42,11 +42,6 @@ const Home = async () => {
           </div>
         </div>
         <div className="controls"></div>
-        {/*<Image*/}
-        {/*  src={heroBG}*/}
-        {/*  alt=""*/}
-        {/*  className="absolute top-0 left-0 right-0 rounded"*/}
-        {/*/>*/}
       </section>
       <section className="-translate-y-1/2 w-[1232px] m-auto">
         <Filters />

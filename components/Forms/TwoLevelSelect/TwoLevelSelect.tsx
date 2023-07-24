@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import arrowDown from '@/assets/arrow-down.svg';
+import arrowDown from '@/app/(main)/assets/arrow-down.svg';
 import Image from 'next/image';
 import cn from 'classnames';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
-import { Group } from '@/app/search/types';
+import { Group } from '@/app/(search)/search/types';
 
 type TripleCheckbox = 'not' | 'partly' | 'fully';
 
@@ -123,6 +123,7 @@ export const TwoLevelSelect: React.FC<any> = (props: {
                       value={item.parent}
                       className="hidden"
                       {...register(name, {
+                        value: [],
                         onChange: (e) => {
                           toggleSelected(e.target.value);
                         },

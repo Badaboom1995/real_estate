@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import arrow from '@/assets/arrow-blue.svg';
+import arrow from '@/app/(main)/assets/arrow-blue.svg';
 import Image from 'next/image';
 
 interface Props {
