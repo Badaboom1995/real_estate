@@ -2,7 +2,6 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import { mapObjects } from '@/app/mocks/mapObjects';
 import Toggle from '@/components/Forms/Toggle';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '@/stores/StoreProvider';
