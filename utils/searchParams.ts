@@ -1,3 +1,5 @@
+import { searchParamsType } from '@/types/SearchPropsTypes';
+
 export function objectToParams(obj: Record<string, any>): string {
   const paramArray: string[] = [];
 
@@ -37,3 +39,14 @@ export function paramsToObject(entries: any) {
   }
   return result;
 }
+
+export const getUpdatedSearchState = (
+  currentSearchState: searchParamsType,
+  changes: Record<string, unknown>,
+  router?: any,
+) => {
+  const result = { ...currentSearchState, ...changes };
+  const url = objectToParams(result);
+  router?.push(`search/?${url}`);
+  return `search/?${url}`;
+};

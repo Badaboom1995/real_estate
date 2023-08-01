@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import arrowDown from '@/app/(main)/assets/arrow-down.svg';
+import arrowDown from '@/public/assets/arrow-down.svg';
 import Image from 'next/image';
 import cn from 'classnames';
 import { useFormContext, useWatch } from 'react-hook-form';

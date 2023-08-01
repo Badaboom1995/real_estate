@@ -1,26 +1,65 @@
 'use client';
 import { FormProvider, useForm } from 'react-hook-form';
-import Toggle from '@/components/Forms/Toggle';
-import Select from '@/components/Forms/Select';
+import SelectDumb from '@/components/SelectDumb';
+import { RadioGroup } from '@/components/Forms/RadioGroup';
+import { useContext, useEffect } from 'react';
+import { SortEnum } from '@/types/SearchPropsTypes';
+import { propertyService } from '@/services/propertyService';
+import { StoreContext } from '@/stores/StoreProvider';
+import { useUrlParams } from '@/hooks/useSearchParams';
+import { getUpdatedSearchState } from '@/utils/searchParams';
+import { useRouter } from 'next/navigation';
 
 interface PropertySortingProps {
-  onToggleMap: () => void;
+  onChange?: (value: string) => void;
 }
+const sortOptions = [
+  { name: 'Price (lowest first)', value: SortEnum.PRICE_ASC },
+  { name: 'Price (highest first)', value: SortEnum.PRICE_DESC },
+];
+
+const SelectOptions = () => (
+  <div className="p-[16px] whitespace-nowrap">
+    <RadioGroup groupName="sort" direction="col" options={sortOptions} />
+  </div>
+);
 
 export function PropertySorting(props: PropertySortingProps) {
-  const { onToggleMap } = props;
-  const methods = useForm<FormData>();
+  const { onChange } = props;
+  const searchParams = useUrlParams();
+  const methods = useForm({
+    defaultValues: { sort: searchParams.sort || null },
+  });
+  const { SearchPageStore } = useContext(StoreContext);
+  const { watch } = methods;
+  const sort = watch('sort');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!sort) return;
+    const subscription = watch(
+      (value) => onChange && onChange(value.sort || SortEnum.PRICE_ASC),
+    );
+
+    propertyService.getProperties({ ...searchParams, sort }).then((res) => {
+      SearchPageStore.setProperties(res.data);
+    });
+
+    getUpdatedSearchState(searchParams, { sort }, router);
+    return () => subscription.unsubscribe();
+  }, [sort]);
+
   return (
     <FormProvider {...methods}>
-      <div className="flex items-center gap-[8px]">
-        <Select
-          name="sort"
-          options={[
-            { label: 'ascending', value: 'ascending' },
-            { label: 'discending', value: 'discending' },
-          ]}
+      <form action="">
+        <SelectDumb
+          size="md"
+          placeholder={
+            sortOptions.find((option) => option.value === sort)?.name || 'Sort'
+          }
+          Content={SelectOptions}
         />
-      </div>
+      </form>
     </FormProvider>
   );
 }

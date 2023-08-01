@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import Image from 'next/image';
-import arrowDown from '@/app/(main)/assets/arrow-down.svg';
+import arrowDown from '@/public/assets/arrow-down.svg';
 import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
 
 type Option = {

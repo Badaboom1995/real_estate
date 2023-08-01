@@ -2,26 +2,30 @@
 import * as React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
-import Toggle from '@/components/Forms/Toggle';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '@/stores/StoreProvider';
 import { maps } from '@/utils/maps';
 import { PropertyCard } from '@/components/PropertyCard';
+import { useUrlParams } from '@/hooks/useSearchParams';
 
 interface MapProps {
   mapRef: any;
   setMapRef: (map: any) => void;
+  propertiesList: any[];
+  single?: boolean;
 }
+
 export const Map = observer((props: MapProps) => {
+  const { mapRef, setMapRef, propertiesList, single } = props;
   const [mapDone, setDone] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [propId, setId] = useState('0');
-  const { mapRef, setMapRef } = props;
   const { SearchPageStore } = useContext(StoreContext);
   const property = SearchPageStore.getPropertyById(propId);
+  const searchParams = useUrlParams();
 
   useEffect(() => {
-    const properties = SearchPageStore.properties.map((property) => {
+    const properties = propertiesList.map((property) => {
       if (!property.point) return;
       const [lat, lon] = property.point.split(',');
       return {
@@ -41,6 +45,7 @@ export const Map = observer((props: MapProps) => {
       lat: property?.geometry.coordinates[0] || 0,
       lng: property?.geometry.coordinates[1] || 0,
     }));
+
     const bounds = maps.getBoundingBox(points);
     if (mapRef) {
       try {
@@ -50,11 +55,11 @@ export const Map = observer((props: MapProps) => {
       } catch (e) {
         console.log(e);
       }
-      mapRef.fitBounds(bounds, { padding: 100, maxDuration: 3000 });
+      mapRef.fitBounds(bounds, { padding: 100, maxDuration: 2000 });
       // mapRef.setCenter(properties[0]?.geometry.coordinates || [-69.5, 18.34]);
     }
 
-    if (mapDone || !SearchPageStore.properties.length) return;
+    if (mapDone || !properties.length) return;
     mapboxgl.accessToken =
       'pk.eyJ1IjoiYmFkYXZvbyIsImEiOiJjbGpwZmc3cjMxa2UxM2VreXQxYzh0MngyIn0.MxR2Hiaj3ppo3w_UyX3zWA';
     const map = new mapboxgl.Map({
@@ -99,15 +104,15 @@ export const Map = observer((props: MapProps) => {
         map.getCanvas().style.cursor = '';
       });
     });
+    console.log('map loaded');
     setDone(true);
-  }, [SearchPageStore.propertiesCount]);
+  }, [searchParams]);
 
   useEffect(() => {
-    if (!mapRef) return;
+    if (!mapRef || single) return;
     mapRef.on('click', 'places', (e: any, features: any) => {
       setShowCard(true);
       setId(e.features[0].properties.id);
-      console.log(e.features[0].properties.id);
     });
     return () => {
       mapRef.off('click', 'places');
@@ -115,7 +120,7 @@ export const Map = observer((props: MapProps) => {
   }, [showCard, mapRef]);
 
   return (
-    <div id="map" className={'relative overflow-hidden h-[60vh]'}>
+    <div id="map" className={'relative overflow-hidden h-[70vh]'}>
       {showCard && (
         <div className="absolute left-[20px] top-[20px] bg-blue-400 w-[300px] rounded overflow-hidden">
           <button
@@ -139,15 +144,7 @@ export const Map = observer((props: MapProps) => {
               />
             </svg>
           </button>
-          <PropertyCard
-            mapRef={props.mapRef}
-            property={property}
-            title={property?.name || ''}
-            image={(property?.pictures && property?.pictures[0]) || ''}
-            price={`${property?.price_dollar}` || '0'}
-            address={`${property?.city || ''}, ${property?.country}`}
-            features={`${property?.type} • ${property?.bedrooms} bds • ${property?.bathrooms} ba • ${property?.internal_area_ft} Sq Ft`}
-          />
+          <PropertyCard mapRef={props.mapRef} property={property} />
         </div>
       )}
     </div>

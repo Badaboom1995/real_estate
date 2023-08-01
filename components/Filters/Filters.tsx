@@ -11,10 +11,10 @@ import { useRouter } from 'next/navigation';
 import { getCountryArray } from '@/utils/getCountriesArray';
 import { PriceRange } from '@/components/Range/Range';
 import { BedsAndBaths } from '@/components/BedsAndBaths';
-import { strings } from '@/utils/strings';
-import { objectToParams, paramsToObject } from '@/utils/objectToParams';
+import { objectToParams } from '@/utils/searchParams';
 import SelectDumb from '@/components/SelectDumb';
-import { database } from '@/utils/database';
+import { propertyTypes } from '@/consts';
+import { propertyService } from '@/services/propertyService';
 
 interface FiltersProps {
   containerClassName?: string;
@@ -38,6 +38,10 @@ export const Filters = observer(({ defaultValues }: FiltersProps) => {
     defaultValues,
   });
   const { handleSubmit } = methods;
+  const propertyOptions = propertyTypes.map((type) => ({
+    value: type,
+    label: type,
+  }));
 
   useEffect(() => {
     getCountryArray().then((res) => {
@@ -50,37 +54,22 @@ export const Filters = observer(({ defaultValues }: FiltersProps) => {
       SearchPageStore.setDict('locations', locations);
     });
   }, []);
-  const checkFilters = () => {
-    console.log('before', JSON.parse(JSON.stringify(SearchPageStore.filters)));
-  };
-  const onSubmit = (data: FormData) => {
+
+  const onSubmit = async (data: FormData) => {
     setLoading(true);
-    console.log('data', data);
-    SearchPageStore.setFilters(data);
+    const { count, data: properties } = await propertyService.getProperties(
+      data,
+    );
     const normalizedParams = objectToParams(data);
-    const paramsString = new URLSearchParams(normalizedParams).toString();
-    const filter: any = { ...data };
-    // console.log('filter', data);
-    const { minPrice, maxPrice } = data;
-    delete filter.minPrice;
-    delete filter.maxPrice;
-    database
-      .fetchEntities({
-        filter,
-        sort: false,
-        range: [{ name: 'price_dollar', min: minPrice, max: maxPrice }],
-      })
-      .then((res) => {
-        SearchPageStore.setProperties(res?.data);
-        SearchPageStore.setCount(res?.count);
-        setLoading(false);
-        router.push(`/search?${paramsString}`);
-      });
+    setLoading(false);
+    router.push(`/search?${normalizedParams}`);
+    SearchPageStore.setProperties(properties);
+    SearchPageStore.setCount(count);
   };
 
   const inputClass = 'w-[16.66%] max-w-[245px] grow';
   return (
-    <div className={'border px-[30px] py-[42px] mb-[20px] bg-white rounded'}>
+    <div className="relative z-10 border px-[30px] py-[42px] mb-[20px] bg-white rounded">
       <FormProvider {...methods}>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -101,34 +90,14 @@ export const Filters = observer(({ defaultValues }: FiltersProps) => {
               name="type"
               label="Property type"
               placeholder="Any"
-              options={[
-                { value: 'Villa', label: 'Villa' },
-                { value: 'Land', label: 'Land' },
-                { value: 'House', label: 'House' },
-                { value: 'Apartments', label: 'Apartments' },
-                { value: 'Condo', label: 'Condo' },
-              ]}
+              options={propertyOptions}
               multiple={true}
             />
-            {/*<Select*/}
-            {/*  className={inputClass}*/}
-            {/*  label="Price"*/}
-            {/*  name="priceRange"*/}
-            {/*  placeholder={showPricePlaceholder()}*/}
-            {/*  content={<PriceRange rightBorder={99999999} methods={methods} />}*/}
-            {/*/>*/}
-            {/*<Select*/}
-            {/*  className={inputClass}*/}
-            {/*  label="Bedrooms & bathrooms"*/}
-            {/*  name="bedsAndBaths"*/}
-            {/*  placeholder={showBathBedPlaceholder()}*/}
-            {/*  content={<BedsAndBaths />}*/}
-            {/*/>*/}
             <SelectDumb
               label="Price"
               className={inputClass}
               Content={PriceRange}
-              contentProps={{ rightBorder: 99999999, methods: methods }}
+              contentProps={{ rightBorder: 60000000, methods: methods }}
             />
             <SelectDumb
               label="Bedrooms & bathrooms"
@@ -140,7 +109,6 @@ export const Filters = observer(({ defaultValues }: FiltersProps) => {
                 iconLeft={filtersIcon}
                 variant="transparent"
                 type="button"
-                onClick={checkFilters}
               >
                 Filters
               </Button>

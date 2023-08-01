@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import arrowDown from '@/app/(main)/assets/arrow-down.svg';
+import arrowDown from '@/public/assets/arrow-down.svg';
 
 type ContentProps =
   | {
@@ -15,6 +15,8 @@ type SelectProps = {
   className?: string;
   iconLeft?: string;
   iconRight?: string;
+  variant?: 'default' | 'text';
+  size?: 'md' | 'default';
   Content: React.FC<ContentProps>;
   contentProps?: Record<string, unknown>;
 };
@@ -27,6 +29,8 @@ export const SelectDumb: React.FC<SelectProps> = (props) => {
     Content,
     placeholder = 'Any',
     contentProps,
+    variant = 'default',
+    size = 'default',
   } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -58,9 +62,11 @@ export const SelectDumb: React.FC<SelectProps> = (props) => {
       <div className="relative">
         <button
           type="button"
-          className={`${
-            isOpen ? 'border-blue-500' : 'border-gray-300'
-          } truncate w-full flex justify-between items-center bg-white border rounded-[8px] outline-none shadow-sm px-4 pr-[30px] py-[14px] mt-2 mr-4 text-left focus:outline-none  focus:border-blue-500`}
+          className={`
+          ${isOpen ? 'border-blue-500' : 'border-gray-300'} 
+          ${variant === 'default' && 'border bg-white shadow-sm'}
+          ${size === 'md' ? 'py-[8px]' : 'py-[14px]'}
+           truncate w-full flex justify-between items-center rounded-[8px] outline-none  px-4 pr-[30px] mt-2 mr-4 text-left focus:outline-none  focus:border-blue-500`}
           onClick={handleToggleOptions}
         >
           {iconLeft && <img src={iconLeft} />}
@@ -72,7 +78,7 @@ export const SelectDumb: React.FC<SelectProps> = (props) => {
           />
         </button>
         <div
-          className={`absolute z-10 bg-white shadow-md rounded-md mt-2 border border-[#D9DBE9] ${
+          className={`absolute w-auto z-10 bg-white shadow-md rounded-md mt-2 border border-[#D9DBE9]  ${
             !isOpen && 'hidden'
           }`}
         >

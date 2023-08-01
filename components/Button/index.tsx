@@ -6,7 +6,7 @@ import { colors } from '@/consts';
 type ButtonProps = {
   variant?: 'primary' | 'transparent' | 'text';
   color?: 'grey' | 'default' | 'white';
-  size?: 'base' | 'sm';
+  size?: 'base' | 'md' | 'sm';
   children?: React.ReactNode;
   className?: string;
   iconLeft?: string;
@@ -50,6 +50,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   const sizeStyles = {
     base: 'py-[14px] px-[24px] rounded-[8px] text-base line-height-[28px] font-semibold',
     sm: 'py-[6px] px-[16px] rounded-[6px] text-sm line-height-[20px] font-semibold',
+    md: 'py-[12px] px-[24px] rounded-[6px] text-base line-height-[24px] font-semibold',
   };
 
   return (

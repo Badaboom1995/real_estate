@@ -50,6 +50,7 @@ interface RadioGroupProps {
   name: string;
   type: 'radio' | 'checkbox';
   label?: string;
+  direction?: 'row' | 'col';
 }
 
 export const ChooseGroup: FC<RadioGroupProps> = ({
@@ -57,11 +58,12 @@ export const ChooseGroup: FC<RadioGroupProps> = ({
   name,
   type,
   label,
+  direction = 'row',
 }) => {
   return (
     <div className="p-[12px]">
       <span className="text-[16px]">{label}</span>
-      <div className="flex gap-2 py-4">
+      <div className={`flex flex-${direction} gap-2 py-4`}>
         {options.map(({ label, value, disabled }, index) => (
           <ChooseButton
             type={type}

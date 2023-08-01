@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-
-type Tab = {
-  id: string;
-  label: string;
-  content: React.ReactNode;
-};
+import { Tab } from '@/types/Tab';
 
 type TabsProps = {
   tabs: Tab[];

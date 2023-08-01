@@ -5,7 +5,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Typography } from '@/components/Typography';
 import Button from '@/components/Button';
 import { RadioGroup } from '@/components/Forms/RadioGroup';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import supabase from '@/database/supabase';
 
 interface RequestFormProps {

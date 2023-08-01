@@ -1,4 +1,4 @@
-export const normalizeFilters = (filters: Record<string, any>) => {
+export const normalizeSearchProps = (filters: Record<string, any>) => {
   for (let key in filters) {
     if (
       key === 'city' ||

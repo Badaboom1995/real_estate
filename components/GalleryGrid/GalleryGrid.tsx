@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import Image from 'next/image';
-import photo from '@/app/(main)/assets/photo.svg';
+import photo from '@/public/assets/photo.svg';
 
 interface GalleryGridProps {
   className?: string;

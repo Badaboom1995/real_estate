@@ -6,12 +6,17 @@ interface RadioGroupProps {
   containerClassName?: string;
   groupName: string;
   options: { name: string; value: string }[];
+  direction?: 'row' | 'col';
 }
 
 export function RadioGroup(props: RadioGroupProps) {
-  const { containerClassName, options, groupName } = props;
-  const containerClasses = cn(containerClassName, 'flex gap-x-[32px]');
+  const { containerClassName, options, groupName, direction } = props;
+  const containerClasses = cn(
+    containerClassName,
+    `flex flex-${direction} gap-x-[32px] gap-y-[16px]`,
+  );
   const { register } = useFormContext();
+
   return (
     <div className={containerClasses}>
       {options.map(({ name, value }) => (
@@ -23,7 +28,6 @@ export function RadioGroup(props: RadioGroupProps) {
             value={value}
             className="hidden radioInput"
           />
-
           <label
             htmlFor={`${value}-${groupName}`}
             className="inline-block text-base w-[16px] h-[16px] rounded-full border-[2px] border-primary cursor-pointer"
