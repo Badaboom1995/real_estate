@@ -14,16 +14,6 @@ import { locationsService } from '@/services/locationsService';
 import arrow from '@/public/assets/arrow-blue.svg';
 import supabase from '@/database/supabase';
 
-const getLink = (name: string) => {
-  if (name === 'Bahamas') {
-    return 'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Bahamas&city=Abaco%20Islands&city=Albany&city=Andros&city=Berry%20Islands&city=Bimini&city=Cat%20Island&city=Elbow%20Cay&city=Eleuthera%20%26%20Harbour%20Island&city=Exumas&city=Grand%20Bahama&city=Kamalame%20Cay&city=Long%20Island&city=Lubbers%20Quarters&city=Lyford%20Cay&city=Nassau%20%26%20New%20Providence&city=Old%20Fort%20Bay&city=Palm%20Cay&city=Paradise%20Island&city=Rose%20Island&city=Rum%20Cay&city=San%20Salvador&city=Sandyport&city=Spanish%20Wells&city=Treasure%20Cay&city=Windermere%20Island';
-  }
-  if (name === 'Costa Rica') {
-    return 'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Costa%20Rica&city=Alajuela&city=Escazu&city=Guanacaste&city=Hacienda%20Pinilla&city=Heredia&city=Jaco&city=Las%20Catalinas&city=Osa%20Peninsula&city=Papagayo&city=Playa%20Flamingo&city=Puntarenas&city=San%20Jose&city=Santa%20Ana&city=Santa%20Teresa&city=Tamarindo&city=Uvita&city=Puntarenas&city=Puntarenas';
-  }
-  return `/locations/${name}`;
-};
-
 const Home = async () => {
   const latest = (await database.fetchEntities({})) || {
     data: [],
@@ -33,7 +23,7 @@ const Home = async () => {
   const { data: categories, error: err } = await supabase
     .from('Categories')
     .select('*');
-  console.log(categories);
+
   return (
     <main className="w-full">
       <section

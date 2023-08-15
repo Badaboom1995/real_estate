@@ -8,7 +8,6 @@ import { Map } from '@/components/Map';
 import { PropertySorting } from '@/components/PropertySorting';
 import { useUrlParams } from '@/hooks/useSearchParams';
 import { ToastContainer } from 'react-toastify';
-import { propertyService } from '@/services/propertyService';
 import { propertiesAtom } from '@/stores/recoil/properties/propAtom';
 import { useRecoilState } from 'recoil';
 

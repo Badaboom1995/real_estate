@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Menu } from '@/components/Menu';
 import Button from '@/components/Button';
 import logo from '@/public/assets/logo.svg';
@@ -11,6 +11,8 @@ import { useSetRecoilState } from 'recoil';
 import { spaceUnitState } from '@/stores/recoil/atom';
 import langIcon from '@/public/assets/lang.svg';
 import { usePathname } from 'next/navigation';
+import { RequestForm } from '@/components/RequestForm';
+import { Modal } from '@/components/Modal';
 
 export const Header = () => {
   const methods = useForm({
@@ -22,6 +24,7 @@ export const Header = () => {
   const { watch } = methods;
   const pathname = usePathname();
   const [isModalOpen, setModalOpen] = useState(false);
+  const [requestOpen, setRequestOpen] = useState(false);
   const units = watch('units');
   const unitsButton = useRef<HTMLDivElement>(null);
   const handleClickOutside = (event: MouseEvent) => {
@@ -51,6 +54,18 @@ export const Header = () => {
           pathname !== '/search' ? 'max-w-[1440px]' : ''
         }`}
       >
+        <Modal
+          isOpen={requestOpen}
+          onClose={() => {
+            setRequestOpen(false);
+          }}
+        >
+          <RequestForm
+            onClose={() => {
+              setRequestOpen(false);
+            }}
+          />
+        </Modal>
         <Link href="/">
           <Image src={logo} alt="logo" />
         </Link>
@@ -85,6 +100,9 @@ export const Header = () => {
             className="mr-4
         "
             variant="transparent"
+            onClick={() => {
+              setRequestOpen(true);
+            }}
           >
             Request a call
           </Button>
