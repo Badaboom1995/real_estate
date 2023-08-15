@@ -45,7 +45,7 @@ const AboutPage = () => {
                 Mexico, and more, the Caribbean Real Estate MLS has established
                 itself as a leading real estate Multiple Listing Service in the
                 Caribbean region. Our web and mobile platform is the ultimate
-                place to explore Caribbean real estate for sale, whether you're
+                place to explore Caribbean real estate for sale, whether youre
                 in search of new condos in the Dominican Republic or lavish
                 beach houses in The Bahamas. With an extensive range of listings
                 covering the entire region – from the Turks & Caicos Islands in
@@ -58,7 +58,7 @@ const AboutPage = () => {
                 ideal island home, high-yield investment, or idyllic vacation
                 getaway. At Caribbean Real Estate MLS, we are dedicated to
                 helping you find your own slice of paradise in this unrivalled
-                region. The Caribbean lifestyle you've always dreamed of is
+                region. The Caribbean lifestyle youve always dreamed of is
                 closer than you imagine, and Caribbean Real Estate MLS is your
                 key to unlocking the best of the region.
               </Typography>
@@ -72,7 +72,7 @@ const AboutPage = () => {
               Work are Connected to Local Caribbean Real Estate Agents:
             </Typography>
             <Typography type="paragraph">
-              We've spent years building a powerful network of handpicked
+              Weve spent years building a powerful network of handpicked
               partners – trusted real estate agents and property developers
               across the Caribbean. These experts meet our strict criteria in
               terms of market experience, local reputation, and professionalism.
@@ -109,12 +109,12 @@ const AboutPage = () => {
               condos, waterfront properties for boating enthusiasts, golf real
               estate along lush fairways, secluded mountain, rainforest, and
               jungle hideaways, or one-of-a-kind historic homes and island
-              estates, we have something to suit everyone. You'll find
-              affordable homes and condos under $200,000, perfect for
-              entry-level investors, as well as high-quality mid-range
-              properties for those looking to invest more. For those seeking the
-              pinnacle of refined Caribbean living, our collection includes
-              one-of-a-kind lavish estates and luxury real estate.
+              estates, we have something to suit everyone. Youll find affordable
+              homes and condos under $200,000, perfect for entry-level
+              investors, as well as high-quality mid-range properties for those
+              looking to invest more. For those seeking the pinnacle of refined
+              Caribbean living, our collection includes one-of-a-kind lavish
+              estates and luxury real estate.
             </Typography>
           </TextSection>
           <TextSection>
