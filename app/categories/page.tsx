@@ -40,10 +40,11 @@ const Locations = async () => {
         ready to chill with friends, the beach house pool awaits.
       </Typography>
       <div className="grid grid-cols-4 gap-x-[24px] gap-y-[32px]">
-        {categories?.map((category: locationType) => (
+        {categories?.map((category: any) => (
           <CategoryCard
             key={category.id}
             title={category.name}
+            link={category.link}
             bg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2373&q=80"
           />
         ))}

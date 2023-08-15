@@ -14,7 +14,6 @@ import { locationsService } from '@/services/locationsService';
 import Image from 'next/image';
 import arrow from '@/public/assets/arrow-down.svg';
 import Link from 'next/link';
-import { Map } from '@/components/Map';
 
 export type Params = {
   params: { location_id: string };

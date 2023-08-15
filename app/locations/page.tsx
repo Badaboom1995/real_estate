@@ -15,6 +15,7 @@ type locationType = {
   pictures: string[];
   // TODO: parent_id should be a camel case
   parent_id: string;
+  link: string;
 };
 
 const Locations = async () => {
@@ -44,7 +45,7 @@ const Locations = async () => {
             key={location.id}
             placeName={location.name}
             url={location.pictures ? location.pictures[0] : ''}
-            link={`/locations/${location.name}`}
+            link={location.link}
           />
         ))}
       </div>
