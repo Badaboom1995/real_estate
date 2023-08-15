@@ -5,7 +5,7 @@ interface CategoryCardProps {
   containerClassName?: string;
   title: string;
   bg?: string;
-  link: string;
+  link?: string;
 }
 
 const Arrow = ({ fill }: { fill: string }) => (
@@ -42,7 +42,7 @@ export function CategoryCard(props: CategoryCardProps) {
     >
       <Typography type="h2" className="text-white w-full flex justify-between">
         {title}
-        <Link href={link}>
+        <Link href={link || ''}>
           <button className="rotate-180 ">
             <Arrow fill="#fff" />
           </button>

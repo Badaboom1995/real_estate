@@ -14,6 +14,7 @@ import { locationsService } from '@/services/locationsService';
 import Image from 'next/image';
 import arrow from '@/public/assets/arrow-down.svg';
 import Link from 'next/link';
+import { Map } from '@/components/Map';
 
 export type Params = {
   params: { location_id: string };
@@ -85,14 +86,7 @@ const LocationParent = async ({ params }: Params) => {
             <Typography type="h2" className="mb-[16px]">
               Location
             </Typography>
-            <div className="w-[862px] h-[420px] bg-slate-200 overflow-hidden">
-              {/*  <Map*/}
-              {/*    single*/}
-              {/*    mapRef={mapRef}*/}
-              {/*    setMapRef={setMapRef}*/}
-              {/*    pointsList={[location]}*/}
-              {/*  />*/}
-            </div>
+            <div className="w-[862px] h-[420px] bg-slate-200 overflow-hidden"></div>
           </section>
           <section className="border border-[#F7F7FC] rounded bg-white p-[24px] mb-[56px]">
             <Typography className="mb-[16px]" type="h2">
