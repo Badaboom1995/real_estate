@@ -43,7 +43,7 @@ const Locations = async () => {
           <LocationCard
             key={location.id}
             placeName={location.name}
-            url={location.pictures[0]}
+            url={location.pictures ? location.pictures[0] : ''}
             link={`/locations/${location.name}`}
           />
         ))}
