@@ -22,7 +22,7 @@ const Locations = async () => {
     data: [],
     count: 0,
   };
-  const { data: locations, error } = await locationsService.getLocations();
+  const { data: locations } = await locationsService.getLocations();
 
   return (
     <div>

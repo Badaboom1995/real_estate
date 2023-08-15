@@ -9,7 +9,7 @@ export const SearchPage = async (props: Params) => {
   const { count: pointsCount, data: points } = await propertyService.getPoints(
     params,
   );
-
+  console.log('params');
   return (
     <SearchPageContainer
       properties={properties}

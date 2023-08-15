@@ -1,10 +1,11 @@
 import { Typography } from '@/components/Typography';
+import Link from 'next/link';
 
 interface CategoryCardProps {
   containerClassName?: string;
   title: string;
   bg?: string;
-  link?: string;
+  link: string;
 }
 
 const Arrow = ({ fill }: { fill: string }) => (
@@ -29,7 +30,7 @@ const Arrow = ({ fill }: { fill: string }) => (
 );
 
 export function CategoryCard(props: CategoryCardProps) {
-  const { title } = props;
+  const { title, link } = props;
 
   return (
     <div
@@ -41,9 +42,11 @@ export function CategoryCard(props: CategoryCardProps) {
     >
       <Typography type="h2" className="text-white w-full flex justify-between">
         {title}
-        <button className="rotate-180 ">
-          <Arrow fill="#fff" />
-        </button>
+        <Link href={link}>
+          <button className="rotate-180 ">
+            <Arrow fill="#fff" />
+          </button>
+        </Link>
       </Typography>
     </div>
   );

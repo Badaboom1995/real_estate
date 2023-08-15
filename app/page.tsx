@@ -14,6 +14,16 @@ import { locationsService } from '@/services/locationsService';
 import arrow from '@/public/assets/arrow-blue.svg';
 import supabase from '@/database/supabase';
 
+const getLink = (name: string) => {
+  if (name === 'Bahamas') {
+    return 'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Bahamas&city=Abaco%20Islands&city=Albany&city=Andros&city=Berry%20Islands&city=Bimini&city=Cat%20Island&city=Elbow%20Cay&city=Eleuthera%20%26%20Harbour%20Island&city=Exumas&city=Grand%20Bahama&city=Kamalame%20Cay&city=Long%20Island&city=Lubbers%20Quarters&city=Lyford%20Cay&city=Nassau%20%26%20New%20Providence&city=Old%20Fort%20Bay&city=Palm%20Cay&city=Paradise%20Island&city=Rose%20Island&city=Rum%20Cay&city=San%20Salvador&city=Sandyport&city=Spanish%20Wells&city=Treasure%20Cay&city=Windermere%20Island';
+  }
+  if (name === 'Costa Rica') {
+    return 'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Costa%20Rica&city=Alajuela&city=Escazu&city=Guanacaste&city=Hacienda%20Pinilla&city=Heredia&city=Jaco&city=Las%20Catalinas&city=Osa%20Peninsula&city=Papagayo&city=Playa%20Flamingo&city=Puntarenas&city=San%20Jose&city=Santa%20Ana&city=Santa%20Teresa&city=Tamarindo&city=Uvita&city=Puntarenas&city=Puntarenas';
+  }
+  return `/locations/${name}`;
+};
+
 const Home = async () => {
   const latest = (await database.fetchEntities({})) || {
     data: [],
@@ -23,7 +33,7 @@ const Home = async () => {
   const { data: categories, error: err } = await supabase
     .from('Categories')
     .select('*');
-
+  console.log(categories);
   return (
     <main className="w-full">
       <section
@@ -88,31 +98,53 @@ const Home = async () => {
           <CategoryCard
             title={categories[0].name}
             bg="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
+            link={
+              categories[0].link ||
+              'https://real-estate-alpha-kohl.vercel.app/search?minPrice=1000000&maxPrice=60000000&type=House&type=Villa'
+            }
           />
           <CategoryCard
             title={categories[1].name}
             bg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2373&q=80"
+            link={
+              categories[1].link ||
+              'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&is_construction=true'
+            }
           />
         </div>
         <div className="grid grid-cols-3 gap-[24px]">
           <CategoryCard
             title={categories[2].name}
             bg="https://images.unsplash.com/photo-1689092598007-d1bd432e3c80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGNhcnJpYmVhbiUyMGlzbGFuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+            link={
+              categories[2].link ||
+              'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Bahamas&city=Abaco%20Islands&city=Albany&city=Andros&city=Berry%20Islands&city=Bimini&city=Cat%20Island&city=Elbow%20Cay&city=Eleuthera%20%26%20Harbour%20Island&city=Exumas&city=Grand%20Bahama&city=Kamalame%20Cay&city=Long%20Island&city=Lubbers%20Quarters&city=Lyford%20Cay&city=Nassau%20%26%20New%20Providence&city=Old%20Fort%20Bay&city=Palm%20Cay&city=Paradise%20Island&city=Rose%20Island&city=Rum%20Cay&city=San%20Salvador&city=Sandyport&city=Spanish%20Wells&city=Treasure%20Cay&city=Windermere%20Island&type=Land'
+            }
           />
           <CategoryCard
             title={categories[3].name}
             bg="https://images.unsplash.com/photo-1627512729059-fb322f8436f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2204&q=80"
+            link={
+              categories[3].link ||
+              'https://real-estate-alpha-kohl.vercel.app/search?city=Jalisco&city=Los%20Cabos&city=Manzanillo&city=Nayarit&city=Playa%20del%20Carmen&city=Puerto%20Vallarta&city=Riviera%20Maya&city=Tulum&city=Yucatan&minPrice=1000000&maxPrice=60000000&type=Villa'
+            }
           />
           <CategoryCard
             title={categories[4].name}
             bg="https://images.unsplash.com/photo-1568548634530-38ee433dcc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGNhcnJpYmVhbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+            link={
+              categories[4].link ||
+              'https://real-estate-alpha-kohl.vercel.app/search?minPrice=0&maxPrice=60000000&city=%20Roatan&city=Bay%20Islands&city=Col%C3%B3n&city=Guanaja&city=Palmetto%20Bay&city=Parrot%20Tree%20Plantation&city=Pristine%20Bay&city=Sandy%20Bay&city=West%20Bay&city=West%20End'
+            }
           />
         </div>
       </section>
       <section className="mb-[56px]">
         <div className="flex justify-between w-full items-center mb-[56px]">
           <Typography type="h1">Top Destinations</Typography>
-          <Button variant="transparent">Show all destinations</Button>
+          <Link href="/locations">
+            <Button variant="transparent">Show all destinations</Button>
+          </Link>
         </div>
         <div className="grid grid-cols-4 gap-[24px]">
           {locations?.map((place: any) => (
@@ -126,7 +158,7 @@ const Home = async () => {
                 backgroundPosition: 'center',
               }}
             >
-              <Link href={`/locations/${place?.name}`}>
+              <Link href={getLink(place.name)}>
                 <Typography type="text" className="text-white">
                   Discover
                 </Typography>

@@ -2,9 +2,10 @@ import supabase from '@/database/supabase';
 
 export const locationsService = {
   getLocations: async () => {
-    const { data, error } = await supabase.from('Locations').select('*');
-    // .is('parent_id', null);
-
+    const { data, error } = await supabase
+      .from('Locations')
+      .select('*')
+      .is('parent_id', null);
     return { data, error };
   },
   getCategories: async () => {
