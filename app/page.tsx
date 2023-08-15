@@ -158,7 +158,7 @@ const Home = async () => {
                 backgroundPosition: 'center',
               }}
             >
-              <Link href={place.link}>
+              <Link href={place.link || ''}>
                 <Typography type="text" className="text-white">
                   Discover
                 </Typography>

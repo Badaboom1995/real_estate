@@ -259,23 +259,23 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
               <Button iconLeft={shareWhite}>Share</Button>
             </div>
           </section>
-          <section className="about">
-            <Typography type="h2" className="mb-[16px]">
-              About Country
-            </Typography>
-            <Typography type="text">
-              Feel like exploring the Dominican? Start the day with a hike on
-              one of Playa Moron’s many trails. Weave your way around the gated
-              community to find secluded sandy coves for swimming and
-              paddleboarding. When you’re ready to chill with friends, the beach
-              house pool awaits. Spend the night entertaining in the outdoor
-              lounge, sipping drinks in the hot tub, and gazing out over
-              incredible ocean views.Copyright © Luxury Retreats. All rights
-              reserved.BEDROOM & BATHROOM• Bedroom 1 - Master: King size bed,
-              Ensuite bathroom with stand-alone rain shower, Dual vanity,
-              Walk-in closet, Television, Sofa, Deck, Balcony, Ocean view...
-            </Typography>
-          </section>
+          {/*<section className="about">*/}
+          {/*  <Typography type="h2" className="mb-[16px]">*/}
+          {/*    About Country*/}
+          {/*  </Typography>*/}
+          {/*  <Typography type="text">*/}
+          {/*    Feel like exploring the Dominican? Start the day with a hike on*/}
+          {/*    one of Playa Moron’s many trails. Weave your way around the gated*/}
+          {/*    community to find secluded sandy coves for swimming and*/}
+          {/*    paddleboarding. When you’re ready to chill with friends, the beach*/}
+          {/*    house pool awaits. Spend the night entertaining in the outdoor*/}
+          {/*    lounge, sipping drinks in the hot tub, and gazing out over*/}
+          {/*    incredible ocean views.Copyright © Luxury Retreats. All rights*/}
+          {/*    reserved.BEDROOM & BATHROOM• Bedroom 1 - Master: King size bed,*/}
+          {/*    Ensuite bathroom with stand-alone rain shower, Dual vanity,*/}
+          {/*    Walk-in closet, Television, Sofa, Deck, Balcony, Ocean view...*/}
+          {/*  </Typography>*/}
+          {/*</section>*/}
         </div>
         <div className="col-span-4 p-4">
           <section className="bg-white border border-[#F7F7FC] p-[24px] mb-[8px]">
