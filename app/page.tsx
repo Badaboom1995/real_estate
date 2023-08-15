@@ -1,4 +1,3 @@
-// 'use client';
 import React from 'react';
 import { Typography } from '@/components/Typography';
 import Button from '@/components/Button';
@@ -11,12 +10,20 @@ import { CategoryCard } from '@/components/CategoryCard';
 import heroBG from '@/public/assets/heroBG.jpg';
 import { SliderControls } from '@/components/SliderControls';
 import Image from 'next/image';
+import { locationsService } from '@/services/locationsService';
+import arrow from '@/public/assets/arrow-blue.svg';
+import supabase from '@/database/supabase';
 
 const Home = async () => {
   const latest = (await database.fetchEntities({})) || {
     data: [],
     count: 0,
   };
+  const { data: locations } = await locationsService.getLocations();
+  const { data: categories, error: err } = await supabase
+    .from('Categories')
+    .select('*');
+
   return (
     <main className="w-full">
       <section
@@ -46,17 +53,25 @@ const Home = async () => {
         <div className="controls"></div>
       </section>
       <section className="-translate-y-1/2 w-[1232px] m-auto">
-        <Filters />
+        <Filters panelView />
       </section>
       <section className="mb-[96px]">
-        <Slider itemsPerSlide={4} title="Latest Caribbean Real Estate Listing">
+        <Slider
+          itemsPerSlide={4}
+          title="Latest Caribbean Real Estate Listing"
+          link="/search"
+        >
           {latest.data.map((property: any, index: number) => (
             <PropertyCard key={index} property={property} />
           ))}
         </Slider>
       </section>
       <section className="mb-[96px]">
-        <Slider itemsPerSlide={4} title="Caribbean Real Estate Complexes">
+        <Slider
+          itemsPerSlide={4}
+          title="Caribbean Real Estate Complexes"
+          link="/search"
+        >
           {latest.data.map((property: any, index: number) => (
             <PropertyCard key={index} property={property} />
           ))}
@@ -71,25 +86,25 @@ const Home = async () => {
         </div>
         <div className="grid grid-cols-2 gap-[24px] mb-[24px]">
           <CategoryCard
-            title="Beach Houses "
+            title={categories[0].name}
             bg="https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60"
           />
           <CategoryCard
-            title="Beach Houses "
+            title={categories[1].name}
             bg="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2373&q=80"
           />
         </div>
         <div className="grid grid-cols-3 gap-[24px]">
           <CategoryCard
-            title="Beach Houses "
+            title={categories[2].name}
             bg="https://images.unsplash.com/photo-1689092598007-d1bd432e3c80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGNhcnJpYmVhbiUyMGlzbGFuZHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
           />
           <CategoryCard
-            title="Beach Houses "
+            title={categories[3].name}
             bg="https://images.unsplash.com/photo-1627512729059-fb322f8436f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2204&q=80"
           />
           <CategoryCard
-            title="Beach Houses "
+            title={categories[4].name}
             bg="https://images.unsplash.com/photo-1568548634530-38ee433dcc1b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzV8fGNhcnJpYmVhbnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
           />
         </div>
@@ -100,66 +115,33 @@ const Home = async () => {
           <Button variant="transparent">Show all destinations</Button>
         </div>
         <div className="grid grid-cols-4 gap-[24px]">
-          <div
-            className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60')",
-              backgroundPosition: 'center',
-            }}
-          >
-            <Typography type="text" className="text-white">
-              Discover
-            </Typography>
-            <Typography type="h2" className="text-white">
-              Place Name
-            </Typography>
-          </div>
-          <div
-            className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60')",
-              backgroundPosition: 'center',
-            }}
-          >
-            <Typography type="text" className="text-white">
-              Discover
-            </Typography>
-            <Typography type="h2" className="text-white">
-              Place Name
-            </Typography>
-          </div>
-          <div
-            className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60')",
-              backgroundPosition: 'center',
-            }}
-          >
-            <Typography type="text" className="text-white">
-              Discover
-            </Typography>
-            <Typography type="h2" className="text-white">
-              Place Name
-            </Typography>
-          </div>
-          <div
-            className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded"
-            style={{
-              backgroundImage:
-                "url('https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8aXNsYW5kJTIwdHJvcGljYWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60')",
-              backgroundPosition: 'center',
-            }}
-          >
-            <Typography type="text" className="text-white">
-              Discover
-            </Typography>
-            <Typography type="h2" className="text-white">
-              Place Name
-            </Typography>
-          </div>
+          {locations?.map((place: any) => (
+            <div
+              key={place.id}
+              className="flex flex-col justify-end h-[520px] bg-blue-400 px-[32px] py-[28px] rounded"
+              style={{
+                backgroundImage: `url('${
+                  place?.pictures ? place?.pictures[0] : heroBG
+                }')`,
+                backgroundPosition: 'center',
+              }}
+            >
+              <Link href={`/locations/${place?.name}`}>
+                <Typography type="text" className="text-white">
+                  Discover
+                </Typography>
+                <Typography
+                  type="h2"
+                  className="text-white w-full flex justify-between"
+                >
+                  <span>{place.name}</span>
+                  <span className="bg-white py-2 px-3 -rotate-90 rounded-full flex items-center justify-center">
+                    <Image src={arrow} alt={'arrow'} className={''} />
+                  </span>
+                </Typography>
+              </Link>
+            </div>
+          ))}
         </div>
       </section>
       <div className="relative py-[72px] mb-[96px]">

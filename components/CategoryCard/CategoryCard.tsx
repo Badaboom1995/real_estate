@@ -4,6 +4,7 @@ interface CategoryCardProps {
   containerClassName?: string;
   title: string;
   bg?: string;
+  link?: string;
 }
 
 const Arrow = ({ fill }: { fill: string }) => (
@@ -32,22 +33,18 @@ export function CategoryCard(props: CategoryCardProps) {
 
   return (
     <div
-      className="relative h-[270px] rounded bg-blue-400"
+      className="relative h-[270px] p-[32px] rounded bg-blue-400 flex flex-col-reverse"
       style={{
         backgroundImage: `url(${props.bg})`,
         backgroundPosition: 'center',
       }}
     >
-      <Typography
-        type="h2"
-        className="absolute bottom-[32px] left-[32px] text-white"
-      >
+      <Typography type="h2" className="text-white w-full flex justify-between">
         {title}
+        <button className="rotate-180 ">
+          <Arrow fill="#fff" />
+        </button>
       </Typography>
-      <button className="rotate-180 absolute right-[32px] bottom-[32px]">
-        <Arrow fill="#fff" />
-        {/*<Arrow fill="#14142B" />*/}
-      </button>
     </div>
   );
 }

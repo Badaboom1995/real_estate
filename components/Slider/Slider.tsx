@@ -3,28 +3,33 @@ import React, { useState } from 'react';
 import { SliderControls } from '@/components/SliderControls';
 import { Typography } from '@/components/Typography';
 import Button from '@/components/Button';
+import Link from 'next/link';
 
 interface SliderProps {
   children: React.ReactNode[];
   className?: string;
   itemsPerSlide: number;
   title: string;
+  link?: string;
 }
 
 export const Slider: React.FC<SliderProps> = (props) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { className, children, itemsPerSlide, title } = props;
+  const { className, children, itemsPerSlide, title, link } = props;
   let startIndex = currentSlide * itemsPerSlide;
   let endIndex = startIndex + itemsPerSlide + 1;
+
   const goToNextSlide = () => {
     setCurrentSlide((prevSlide) =>
-      prevSlide === children.length - 1 ? 0 : prevSlide + 1,
+      currentSlide === children.length / itemsPerSlide - 1
+        ? 0
+        : currentSlide + 1,
     );
   };
 
   const goToPrevSlide = () => {
     setCurrentSlide((prevSlide) =>
-      prevSlide === 0 ? children.length - 1 : prevSlide - 1,
+      prevSlide === 0 ? children.length / itemsPerSlide - 1 : prevSlide - 1,
     );
   };
 
@@ -36,7 +41,11 @@ export const Slider: React.FC<SliderProps> = (props) => {
         </Typography>
         <div className="flex items-center gap-[24px]">
           <SliderControls prev={goToPrevSlide} next={goToNextSlide} />
-          <Button variant="transparent">Show all</Button>
+          {link && (
+            <Link href="/search">
+              <Button variant="transparent">Show all</Button>
+            </Link>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-4 gap-[24px]">

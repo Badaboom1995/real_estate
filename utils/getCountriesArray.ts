@@ -21,14 +21,13 @@ export async function getCountryArray() {
     const countryInOutput = output.find(
       (item) => item.country === data.country,
     );
-
     // If the country was not found, create a new entry in the output array
     if (!countryInOutput) {
       output.push({
-        country: data.country,
+        country: data.country || 'unknown',
         cities: data.city ? [data.city] : [],
       });
-    } else {
+    } else if (data.city) {
       // If the country was found, just append the city to the list of cities of that country
       countryInOutput.cities.push(data.city);
     }

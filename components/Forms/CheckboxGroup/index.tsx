@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
+import { useFormContext } from 'react-hook-form';
 
 interface CheckboxOption {
   value: string;
@@ -7,46 +9,39 @@ interface CheckboxOption {
 
 interface CheckboxGroupProps {
   options: CheckboxOption[];
-  label: string;
+  label?: string;
   name: string;
-  onChange: (selectedValues: string[]) => void;
+  reversed?: boolean;
 }
-// Why React.FC?
+
 const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
   options,
   label,
   name,
-  onChange,
+  reversed,
 }) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-
-    setSelectedOptions((prevState) =>
-      prevState.includes(value)
-        ? prevState.filter((option) => option !== value)
-        : [...prevState, value],
-    );
-  };
-
-  React.useEffect(() => {
-    onChange(selectedOptions);
-  }, [selectedOptions, onChange]);
+  const { register, watch } = useFormContext();
+  const values = watch(name) || [];
 
   return (
     <div>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
       {options.map((option) => (
         <div key={option.value}>
-          <input
-            type="checkbox"
-            id={`${name}-${option.value}`}
-            value={option.value}
-            checked={selectedOptions.includes(option.value)}
-            onChange={handleChange}
-          />
-          <label htmlFor={`${name}-${option.value}`}>{option.label}</label>
+          <TripleCheckbox
+            label={option.label}
+            state={values?.includes(option.value) ? 'fully' : 'not'}
+            className={
+              'flex flex-row-reverse justify-between items-center py-[12px] cursor-pointer w-full'
+            }
+          >
+            <input
+              type="checkbox"
+              value={option.value}
+              {...register(name)}
+              className="hidden"
+            />
+          </TripleCheckbox>
         </div>
       ))}
     </div>

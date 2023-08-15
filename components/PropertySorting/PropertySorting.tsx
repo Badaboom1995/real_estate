@@ -5,10 +5,11 @@ import { RadioGroup } from '@/components/Forms/RadioGroup';
 import { useContext, useEffect } from 'react';
 import { SortEnum } from '@/types/SearchPropsTypes';
 import { propertyService } from '@/services/propertyService';
-import { StoreContext } from '@/stores/StoreProvider';
 import { useUrlParams } from '@/hooks/useSearchParams';
 import { getUpdatedSearchState } from '@/utils/searchParams';
 import { useRouter } from 'next/navigation';
+import { useRecoilState } from 'recoil';
+import { propertiesAtom } from '@/stores/recoil/properties/propAtom';
 
 interface PropertySortingProps {
   onChange?: (value: string) => void;
@@ -26,11 +27,11 @@ const SelectOptions = () => (
 
 export function PropertySorting(props: PropertySortingProps) {
   const { onChange } = props;
+  const [propertiesState, setPropertiesState] = useRecoilState(propertiesAtom);
   const searchParams = useUrlParams();
   const methods = useForm({
     defaultValues: { sort: searchParams.sort || null },
   });
-  const { SearchPageStore } = useContext(StoreContext);
   const { watch } = methods;
   const sort = watch('sort');
   const router = useRouter();
@@ -42,7 +43,7 @@ export function PropertySorting(props: PropertySortingProps) {
     );
 
     propertyService.getProperties({ ...searchParams, sort }).then((res) => {
-      SearchPageStore.setProperties(res.data);
+      setPropertiesState({ ...propertiesState, entities: res.data });
     });
 
     getUpdatedSearchState(searchParams, { sort }, router);

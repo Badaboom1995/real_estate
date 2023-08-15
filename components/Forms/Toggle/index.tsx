@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import cn from 'classnames';
+import { useFormContext } from 'react-hook-form';
 
 type ToggleProps = {
   name: string;
@@ -16,6 +17,8 @@ const Toggle: React.FC<ToggleProps> = ({
   onChange,
 }) => {
   const [checked, setChecked] = useState(initialValue);
+  const { register, watch } = useFormContext();
+  const value = watch(name);
 
   const toggle = () => {
     setChecked(!checked);
@@ -29,18 +32,19 @@ const Toggle: React.FC<ToggleProps> = ({
         <input
           type="checkbox"
           className="sr-only"
-          checked={checked}
-          onChange={toggle}
+          {...register(name)}
+          // checked={checked}
+          // onChange={toggle}
         />
         <div
           className={cn('block bg-gray-600 w-10 h-6 rounded-full', {
-            'bg-primary': checked,
+            'bg-primary': value,
           })}
         ></div>
         <div
           className={cn(
             'absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 ease-in-out transform',
-            { 'translate-x-full': checked },
+            { 'translate-x-full': value },
           )}
         ></div>
       </div>

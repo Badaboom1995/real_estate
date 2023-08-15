@@ -1,5 +1,5 @@
 'use client';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreProvider, StoreContext } from '@/stores/StoreProvider';
 import Button from '@/components/Button';
@@ -9,31 +9,30 @@ import { GalleryGrid } from '@/components/GalleryGrid';
 import { useRouter } from 'next/navigation';
 import { strings } from '@/utils/strings';
 import backArrow from '@/public/assets/backArrow.svg';
-import share from '@/public/assets/share.svg';
-import favorite from '@/public/assets/favorite.svg';
 import favoritePrimary from '@/public/assets/favorite-primary.svg';
 import shareWhite from '@/public/assets/share-white.svg';
 import pin from '@/public/assets/pin.svg';
 import Image from 'next/image';
-import { Slider } from '@/components/Slider';
-import { PropertyCard } from '@/components/PropertyCard';
 import { Modal } from '@/components/Modal';
 import { RequestForm } from '@/components/RequestForm';
 import { ToastContainer } from 'react-toastify';
 import { Map } from '@/components/Map';
-import { TabText } from '@/app/(main)/property/[property_id]/components/TabText';
+import { TabText } from '@/components/TabText';
 import { Tab } from '@/types/Tab';
+import { units } from '@/utils/units';
+import { useRecoilValue } from 'recoil';
+import { spaceUnitState } from '@/stores/recoil/atom';
 
 interface IPropertyPageView {
   data: any;
 }
 
 export const PropertyPageView = observer((props: IPropertyPageView) => {
-  const { SearchPageStore } = useContext(StoreContext);
   const router = useRouter();
   const [isModalOpen, setIsOpen] = useState(false);
   const [mapRef, setMapRef] = useState(null);
   const property = props.data;
+  const spaceUnit = useRecoilValue(spaceUnitState);
 
   const getTabs = (property: any): Tab[] => {
     const tabs = [];
@@ -88,12 +87,12 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
           </Button>
         </div>
         <div className="flex items-center gap-[8px]">
-          <Button iconLeft={share} variant="transparent" color="grey">
-            Share
-          </Button>
-          <Button iconLeft={favorite} variant="transparent" color="grey">
-            Save
-          </Button>
+          {/*<Button iconLeft={share} variant="transparent" color="grey">*/}
+          {/*  Share*/}
+          {/*</Button>*/}
+          {/*<Button iconLeft={favorite} variant="transparent" color="grey">*/}
+          {/*  Save*/}
+          {/*</Button>*/}
         </div>
       </div>
       <section className="mb-[56px]">
@@ -145,8 +144,14 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
                 <Typography type="h2" className="truncate">
                   {property?.internal_area_ft ? (
                     <span>
-                      {`${property?.internal_area_ft}`}{' '}
-                      <span style={{ fontSize: '14px' }}>Ft²</span>
+                      {strings.addCommas(
+                        units
+                          .getArea(property?.internal_area_ft, spaceUnit)
+                          .toString(),
+                      )}{' '}
+                      <span style={{ fontSize: '14px' }}>
+                        {spaceUnit === 'sqft' ? 'Ft²' : 'M²'}
+                      </span>
                     </span>
                   ) : (
                     '-'
@@ -160,8 +165,14 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
                 <Typography type="h2" className="truncate">
                   {property?.external_area_ft ? (
                     <span>
-                      {`${property?.external_area_ft}`}{' '}
-                      <span style={{ fontSize: '14px' }}>Ft²</span>
+                      {strings.addCommas(
+                        units
+                          .getArea(property?.external_area_ft, spaceUnit)
+                          .toString(),
+                      )}{' '}
+                      <span style={{ fontSize: '14px' }}>
+                        {spaceUnit === 'sqft' ? 'Ft²' : 'M²'}
+                      </span>
                     </span>
                   ) : (
                     '-'
@@ -226,7 +237,8 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
                 single
                 mapRef={mapRef}
                 setMapRef={setMapRef}
-                propertiesList={[property]}
+                pointsList={[property]}
+                propertiesSelected={[property]}
               />
             </div>
           </section>
@@ -273,7 +285,7 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
             <Typography type="h1" className="mb-[32px]">
               $
               {property?.price_dollar
-                ? strings.addSpaces(property.price_dollar.toString())
+                ? strings.addCommas(property.price_dollar.toString())
                 : 'Unknown price'}
             </Typography>
             <Button
@@ -287,11 +299,11 @@ export const PropertyPageView = observer((props: IPropertyPageView) => {
         </div>
       </div>
       <section className="mb-[56px]">
-        <Slider title="Similar properties" itemsPerSlide={4}>
-          {SearchPageStore.properties.map((property, index) => (
-            <PropertyCard key={index} property={property} />
-          ))}
-        </Slider>
+        {/*<Slider title="Similar properties" itemsPerSlide={4}>*/}
+        {/*  {SearchPageStore.properties.map((property, index) => (*/}
+        {/*    <PropertyCard key={index} property={property} />*/}
+        {/*  ))}*/}
+        {/*</Slider>*/}
       </section>
     </div>
   );

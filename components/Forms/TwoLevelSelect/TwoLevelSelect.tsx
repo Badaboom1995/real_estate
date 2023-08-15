@@ -4,7 +4,7 @@ import Image from 'next/image';
 import cn from 'classnames';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { TripleCheckbox } from '@/components/Forms/TripleCheckbox';
-import { Group } from '@/app/(search)/search/types';
+import { Group } from '@/app/search/types';
 
 type TripleCheckbox = 'not' | 'partly' | 'fully';
 
@@ -18,13 +18,12 @@ export const TwoLevelSelect: React.FC<any> = (props: {
   className: string;
 }) => {
   const { methods, data } = props;
-  const { register } = useFormContext();
-  const results = useWatch();
+  const { register, watch } = useFormContext();
   const { className, name } = props;
   const [expandedGroup, setExpandedGroup] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const selectRef = useRef<HTMLDivElement>(null);
-  const selected = results[name] || [];
+  const selected = watch(name) || [];
   const parents = data.map((item) => item.parent);
   const toggleGroup = (index: number) => {
     setExpandedGroup(expandedGroup === index ? null : index);

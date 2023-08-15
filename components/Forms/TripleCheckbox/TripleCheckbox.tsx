@@ -11,6 +11,7 @@ interface TriStateCheckboxProps {
   children?: React.ReactNode;
   onChange?: (state: CheckboxState) => void;
   className?: string;
+  reversed?: boolean;
 }
 
 const nextState: { [key in CheckboxState]: CheckboxState } = {

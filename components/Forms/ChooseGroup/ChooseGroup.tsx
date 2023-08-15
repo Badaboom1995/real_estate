@@ -1,6 +1,8 @@
+'use client';
 import React, { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import './chooseGroupStyles.css';
+import { Typography } from '@/components/Typography';
 
 interface RadioButtonProps {
   id: string;
@@ -50,11 +52,13 @@ interface RadioGroupProps {
   name: string;
   type: 'radio' | 'checkbox';
   label?: string;
+  labelType?: 'text' | 'info' | 'paragraph' | 'h1' | 'h2' | 'h3';
   direction?: 'row' | 'col';
 }
 
 export const ChooseGroup: FC<RadioGroupProps> = ({
   options,
+  labelType,
   name,
   type,
   label,
@@ -62,7 +66,7 @@ export const ChooseGroup: FC<RadioGroupProps> = ({
 }) => {
   return (
     <div className="p-[12px]">
-      <span className="text-[16px]">{label}</span>
+      <Typography type={labelType ? labelType : 'text'}>{label}</Typography>
       <div className={`flex flex-${direction} gap-2 py-4`}>
         {options.map(({ label, value, disabled }, index) => (
           <ChooseButton

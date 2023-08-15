@@ -4,6 +4,7 @@ export function objectToParams(obj: Record<string, any>): string {
   const paramArray: string[] = [];
 
   for (const key in obj) {
+    if (!obj[key]) continue;
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const value = obj[key];
 

@@ -9,8 +9,11 @@ export type FiltersType = {
   type?: string[];
   bedrooms?: string[];
   bathrooms?: string[];
+  features?: string[];
   minPrice?: string;
   maxPrice?: string;
+  is_construction?: boolean;
+  // is_constitution?: boolean;
 };
 
 export type searchParamsType = FiltersType & { page?: string } & {

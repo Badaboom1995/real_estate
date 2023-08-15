@@ -11,6 +11,7 @@ type ContentProps =
   | any;
 type SelectProps = {
   label?: string;
+  labelType?: 'text' | 'text';
   placeholder?: string;
   className?: string;
   iconLeft?: string;
@@ -66,7 +67,7 @@ export const SelectDumb: React.FC<SelectProps> = (props) => {
           ${isOpen ? 'border-blue-500' : 'border-gray-300'} 
           ${variant === 'default' && 'border bg-white shadow-sm'}
           ${size === 'md' ? 'py-[8px]' : 'py-[14px]'}
-           truncate w-full flex justify-between items-center rounded-[8px] outline-none  px-4 pr-[30px] mt-2 mr-4 text-left focus:outline-none  focus:border-blue-500`}
+           truncate w-full flex justify-between items-center rounded-[8px] outline-none  px-4 pr-[30px] mr-4 text-left focus:outline-none  focus:border-blue-500`}
           onClick={handleToggleOptions}
         >
           {iconLeft && <img src={iconLeft} />}

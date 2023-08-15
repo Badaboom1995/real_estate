@@ -8,6 +8,7 @@ const PropertyPageRoot = async ({
 }) => {
   const data = await database.fetchEntity(params.property_id);
   const result = Array.isArray(data) ? data[0] : data;
+  // console.log(result);
   return <PropertyPageContainer data={result} />;
 };
 

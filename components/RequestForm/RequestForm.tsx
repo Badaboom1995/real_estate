@@ -25,7 +25,6 @@ export function RequestForm(props: RequestFormProps) {
   const camelToSnakeCase = (str: string): string =>
     str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
   const onSubmit = (data: any) => {
-    console.log(data);
     const requestData: Record<string, string> = {};
     for (let key in data) {
       requestData[camelToSnakeCase(key)] = data[key];

@@ -25,6 +25,7 @@ export function BedsAndBaths(props: BedsAndBathsProps) {
   };
   useEffect(() => {
     console.log('run', beds, baths);
+    if (!beds.length && !baths.length) return;
     setTitle(showBathBedPlaceholder(beds, baths));
   }, [beds, baths]);
 

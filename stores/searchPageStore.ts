@@ -26,6 +26,13 @@ const PropertyType = types.model('PropertyType', {
   property_id: types.maybeNull(types.string),
 });
 
+const PointType = types.model('PropertyType', {
+  id: types.maybeNull(types.number),
+  lat: types.maybeNull(types.string),
+  lon: types.maybeNull(types.string),
+  price_dollar: types.maybeNull(types.number),
+});
+
 const LocationType = types.model('LocationType', {
   parent: types.string,
   children: types.array(types.string),
@@ -48,6 +55,7 @@ export const SearchPageModel = types
       bathrooms: types.array(types.string),
     }),
     properties: types.array(PropertyType),
+    points: types.array(PointType),
     propertiesCount: types.optional(types.number, 0),
     currentPage: types.optional(types.number, 1),
   })
@@ -69,12 +77,16 @@ export const SearchPageModel = types
     setProperties(properties: any) {
       self.properties.replace(properties);
     },
+    setPoints(points: any) {
+      self.points.replace(points);
+    },
     addProperties(properties: any) {
       self.properties.push(...properties);
       self.currentPage += 1;
     },
     setDict(name: 'locations' | 'types', dict: any) {
-      self.dicts[name] = dict;
+      if (!name || !dict) return;
+      self.dicts[name] = dict || [];
     },
     setCurrentPage(page: number) {
       self.currentPage = page;
@@ -102,5 +114,6 @@ export const searchPageDefault = {
     bathrooms: [],
   },
   properties: [],
+  points: [],
   page: 1,
 };

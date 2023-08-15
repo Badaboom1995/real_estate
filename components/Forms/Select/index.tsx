@@ -32,13 +32,12 @@ const Select: React.FC<SelectProps> = (props) => {
     iconLeft,
     content,
   } = props;
-  const { register, getValues } = useFormContext();
+  const { register } = useFormContext();
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const values = useWatch();
   const selected = values[name] || [];
   const handleToggleOptions = () => {
-    console.log(isOpen);
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
@@ -58,23 +57,12 @@ const Select: React.FC<SelectProps> = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!isOpen) {
-      console.log('getValues', getValues());
-      // SearchPageStore.setFilters(getValues());
-    }
-  }, [isOpen]);
-
   const getLabel = () => {
     console.log('selected', selected);
-    if (!selected.length || !Array.isArray(selected)) return 'Any';
+    if (!selected.length || !Array.isArray(selected))
+      return props.placeholder || 'Any';
     if (!multiple) return selected[0];
     return selected.join(', ') || props.placeholder;
-    // return multiple && selected.length > 0 && Array.isArray(selected)
-    //   ? selected?.join(', ')
-    //   : options?.find((option) => option.value === selectedValues[0])?.label ||
-    //       props.placeholder ||
-    //       'Any';
   };
 
   return (
